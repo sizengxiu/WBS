@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sfyyzs.mapper.GoalMapper">
+    <resultMap id="goal" type="com.sfyyzs.model.Goal">
+        <id property="id" column="id" />
+        <result property="des" column="des" />
+        <result property="time" column="time" />
+    </resultMap>
+
+    <insert id="saveGoal" parameterType="com.sfyyzs.model.Goal" keyProperty="id" useGeneratedKeys="true">
+        insert into wbs_goal(des,time,state)
+        values(#{des},#{time},1)
+    </insert>
+    <select id="getGoals" parameterType="string" resultMap="goal">
+        select id,des,time
+        from wbs_goal
+        where des like concat('%',concat(#{des},'%'))
+        order by time desc
+    </select>
+
+</mapper>

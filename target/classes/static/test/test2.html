@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../gojs/go.js"></script>
+
+</head>
+<body>
+<div id="myDiagramDiv" style="width:1200px; height:850px; background-color: #DAE4E4;"></div>
+<script>
+    var $go = go.GraphObject.make;
+    var myDiagram =
+        $go(go.Diagram, "myDiagramDiv",
+            {
+                "undoManager.isEnabled": true,
+                layout: $go(go.TreeLayout, // specify a Diagram.layout that arranges trees
+                    {angle: 0, layerSpacing: 35})
+            });
+
+    // the template we defined earlier
+    myDiagram.nodeTemplate =
+        $go(go.Node, "Horizontal",
+            {background: "#44CCFF"},
+            { selectionChanged: ChangedSelection},
+            $go(go.TextBlock, "Default Text",
+                {margin: 1, stroke: "white", font: "bold 16px sans-serif", isMultiline: true},
+                new go.Binding("text", "name"),
+                new go.Binding("editable", "editable")
+            ),
+            $go("Button", {
+                    alignment: go.Spot.Right,
+                    alignmentFocus: go.Spot.Left,
+                    click: function (e, obj) {
+                        console.log(e);
+                        console.log(obj);
+                        alert("点击了添加阿牛");
+                    }
+                }),
+            $go(go.TextBlock, " 分解任务+ ",  // the Button content
+                {font: "bold 8pt sans-serif"}),
+            $go(go.Panel,
+                {alignment: go.Spot.Right},
+                $go("TreeExpanderButton") // 设置收缩按钮
+            ),
+            $go(go.Panel,
+            $go(go.TextBlock,"rdgsdgf+",
+                {alignment: go.Spot.TopRight  ,
+                    click: function (e, obj) {
+                        console.log(e);
+                        console.log(obj);
+                        alert("点击了添加阿牛");
+                    }}
+            ),
+            $go(go.TextBlock,"aasdfasdfsdf+",
+                {alignment: go.Spot.BottomRight  ,
+                    click: function (e, obj) {
+                        console.log(e);
+                        console.log(obj);
+                        alert("点击了添加阿牛");
+                    }}
+            ))
+        );
+    var model = $go(go.TreeModel);
+    model.nodeDataArray =
+        [ // the "key" and "parent" property names are required,
+            // but you can add whatever data properties you need for your app
+            {editable: true, key: "1", name: "Don Meow"},
+            {editable: true, key: "2", parent: "1", name: "Demeter"},
+            {editable: true, key: "3", parent: "1", name: "Copricat"},
+            {editable: true, key: "4", parent: "2", name: "Jellylorum"},
+            {editable: true, key: "5", parent: "2", name: "Alonzo"},
+            {editable: true, key: "6", parent: "3", name: "Munkustrap"}
+        ];
+    myDiagram.model = model;
+    myDiagram.linkTemplate =
+        $go(go.Link,
+            {routing: go.Link.Orthogonal, corner: 5},
+            $go(go.Shape, {strokeWidth: 3, stroke: "#555"}));
+
+    // 树折叠事件
+    myDiagram.addDiagramListener('TreeCollapsed', function (e) {
+        // console.log(e);
+        // console.log('折叠');
+    });
+
+    // 树展开事件
+    myDiagram.addDiagramListener('TreeExpanded', function (e) {
+        // console.log(e);
+        console.log('展开');
+    });
+
+    function ChangedSelection(node) {//选择事件
+        console.log("sadf");
+        console.log(node.data);
+        var data = null;
+     /*   e.diagram.selection.each(function (nodeOrLink) {
+            if (nodeOrLink instanceof go.Node) {//选择节点
+                data = nodeOrLink.data;
+                console.log(data.text);
+            }
+        });*/
+     // alert("点击事件");
+    }
+
+    function makeButton(text, action) {
+        return $go("ContextMenuButton",
+            $go(go.TextBlock, text),
+            { click: action })
+    }
+    var nodeMenu =
+        $go("ContextMenu",
+            makeButton("上点",
+                function (e, obj) { addPort("top"); }),
+            makeButton("左点",
+                function (e, obj) { addPort("left"); }),
+            makeButton("右点",
+                function (e, obj) { addPort("right"); }),
+            makeButton("下点",
+                function (e, obj) { addPort("bottom"); })
+        );
+
+    // myDiagram.contextMenu=nodeMenu;
+    myDiagram.nodeTemplate.contextMenu =
+        $go(go.Adornment, "Vertical",
+            {width:100},
+            $go("ContextMenuButton",
+                $go(go.TextBlock, "编辑"),
+                {
+                    click: function(e, obj) {
+                        var node = obj.part.adornedPart;
+                        branchDataPar=node.data;//获取节点的信息
+                    }
+                }
+            ),
+            $go("ContextMenuButton",
+                $go(go.TextBlock, "添加"),
+                {
+                    click: function(e, obj) {
+                        //可以进行数据的操作
+                    }
+                }
+            ),
+            $go("ContextMenuButton",
+                $go(go.TextBlock, "删除"),
+                {
+                    click: function(e, obj) {
+
+                    }
+                }
+            )
+        );
+    myDiagram.addDiagramListener("ObjectContextClicked",function(e){
+        var part=e.subject.part;
+        clickNode=part.data;//获取点击节点的数据
+        console.info(1111);
+    })
+</script>
+https://www.cnblogs.com/Renyi-Fan/p/9213960.html
+</body>
+</html>

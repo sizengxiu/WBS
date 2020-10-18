@@ -1,0 +1,13 @@
+com\sfyyzs\model\Goal.class
+com\sfyyzs\model\TaskTree.class
+com\sfyyzs\model\Result.class
+com\sfyyzs\mapper\TaskMapper.class
+com\sfyyzs\controller\TaskController.class
+com\sfyyzs\service\TaskServiceI.class
+com\sfyyzs\model\Task.class
+com\sfyyzs\service\impl\TaskServiceImpl.class
+com\sfyyzs\controller\GoalController.class
+com\sfyyzs\App.class
+com\sfyyzs\mapper\GoalMapper.class
+com\sfyyzs\service\GoalService.class
+com\sfyyzs\service\impl\GoalServiceImpl.class

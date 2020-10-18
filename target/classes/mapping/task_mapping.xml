@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sfyyzs.mapper.TaskMapper">
+    <resultMap id="taskTree" type="com.sfyyzs.model.TaskTree">
+        <id property="id" column="id" />
+        <result property="des" column="des" />
+        <result property="parent" column="parent" />
+    </resultMap>
+    <resultMap id="task" type="com.sfyyzs.model.Task">
+        <id property="id" column="id" />
+        <result property="des" column="des" />
+        <result property="parent" column="parent" />
+        <result property="goalId" column="goal_id" />
+        <result property="responsePerson" column="response_person" />
+        <result property="implementation" column="implementation" />
+        <result property="plan" column="plan" />
+        <result property="confirmer" column="confirmer" />
+        <result property="implementation" column="implementation" />
+        <result property="state" column="state" />
+    </resultMap>
+
+
+    <insert id="saveTask" keyColumn="id" keyProperty="id" parameterType="com.sfyyzs.model.Task" useGeneratedKeys="true">
+        insert into wbs_task (des, parent, response_person,
+                              `implementation`, `plan`, confirmer,
+                              `time`, goal_id, `state`
+        )
+        values (#{des,jdbcType=VARCHAR}, #{parent,jdbcType=INTEGER}, #{responsePerson,jdbcType=VARCHAR},
+                #{implementation,jdbcType=VARCHAR}, #{plan,jdbcType=VARCHAR}, #{confirmer,jdbcType=VARCHAR},
+                #{time,jdbcType=TIMESTAMP}, #{goalId,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}
+               )
+    </insert>
+    <select id="getTaskTreeByGoalId" parameterType="int" resultMap="taskTree">
+        select id,desc,parent
+        from wbs_task
+        where goal_id=#{goalId}
+        order by parent desc
+    </select>
+
+</mapper>

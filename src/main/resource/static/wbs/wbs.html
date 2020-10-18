@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link  rel="stylesheet" type="text/css" href="/wbs/node_modules/bootstrap/dist/css/bootstrap.css">
+    <link  rel="stylesheet" type="text/css" href="/wbs/wbs/wbs.css">
+    <script src="/wbs/node_modules/jquery/dist/jquery.js"></script>
+    <script src="/wbs/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/wbs/wbs/wbs.js"></script>
+<!--
+    <link  rel="stylesheet" type="text/css" href="/WBS/static/node_modules/bootstrap/dist/css/bootstrap.css">
+    <link  rel="stylesheet" type="text/css" href="/WBS/static/wbs/wbs.css">
+    <script src="/WBS/static/node_modules/jquery/dist/jquery.js"></script>
+    <script src="/WBS/static/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/WBS/static/wbs/wbs.js"></script>
+-->
+</head>
+<body>
+
+
+<h1 class="text-center">任务分解工具</h1>
+
+<div class="container1">
+    <div class="row" >
+        <div  class="col-lg-2">
+            <h4 class="text-left">目标列表</h4>
+            <p></p>
+
+            <div class="row" >
+                <div  class="col-lg-8"><input type="text" class="form-control" id="goalDec" placeholder="请输入目标关键字" ></div>
+                <div  class="col-lg-1"></div>
+                <div  class="col-lg-3"> <button type="button" class="btn btn-primary" onclick="getGoalList()">搜索</button></div>
+            </div>
+            <div class="row margin-top-5" style="overflow-y: auto">
+                        <ul  id="goal_list_ul" class="list-group" >
+                            <li class="list-group-item">免费域名注册</li>
+                            <li class="list-group-item">免费 Window 空间托管</li>
+                            <li class="list-group-item">图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量</li>
+                            <li class="list-group-item">24*7 支持</li>
+                            <li class="list-group-item">每年更新成本</li>
+                            <li class="list-group-item">免费域名注册</li>
+                            <li class="list-group-item">免费 Window 空间托管</li>
+                            <li class="list-group-item">图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量</li>
+                            <li class="list-group-item">24*7 支持</li>
+                            <li class="list-group-item">每年更新成本</li>
+                            <li class="list-group-item">免费域名注册</li>
+                            <li class="list-group-item">免费 Window 空间托管</li>
+                            <li class="list-group-item">图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量</li>
+                            <li class="list-group-item">24*7 支持</li>
+                            <li class="list-group-item">每年更新成本</li>
+                            <li class="list-group-item">免费域名注册</li>
+                            <li class="list-group-item">免费 Window 空间托管</li>
+                            <li class="list-group-item">图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量</li>
+                            <li class="list-group-item">24*7 支持</li>
+                            <li class="list-group-item">每年更新成本</li>
+                            <li class="list-group-item">免费域名注册</li>
+                            <li class="list-group-item">免费 Window 空间托管</li>
+                            <li class="list-group-item">图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量</li>
+                            <li class="list-group-item">24*7 支持</li>
+                            <li class="list-group-item">每年更新成本</li>
+                            <li class="list-group-item">免费域名注册</li>
+                            <li class="list-group-item">免费 Window 空间托管</li>
+                            <li class="list-group-item">图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量</li>
+                            <li class="list-group-item">24*7 支持</li>
+                            <li class="list-group-item">每年更新成本</li>
+                            <li class="list-group-item">免费域名注册</li>
+                            <li class="list-group-item">免费 Window 空间托管</li>
+                            <li class="list-group-item">图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量</li>
+                            <li class="list-group-item">24*7 支持</li>
+                            <li class="list-group-item">每年更新成本</li>
+                            <li class="list-group-item">免费域名注册</li>
+                            <li class="list-group-item">免费 Window 空间托管</li>
+                            <li class="list-group-item">图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量</li>
+                            <li class="list-group-item">24*7 支持</li>
+                            <li class="list-group-item">每年更新成本</li>
+                            <li class="list-group-item">0、<a  href='javascript:;' onclick='openGoal("5","目标保存测试5")'  target='content'><span>目标保存测试5</span></a></li>
+                            <li class="list-group-item">1、<a  href='javascript:;' onclick='openGoal("4","目标保存测试4")'  target='content'><span>目标保存测试4</span></a></li>
+                            <li class="list-group-item">2、<a  href='javascript:;' onclick='openGoal("3","目标保存测试3")'  target='content'><span>目标保存测试3</span></a></li>
+                            <li class="list-group-item">3、<a  href='javascript:;' onclick='openGoal("1","目标保存测试1")'  target='content'><span>目标保存测试1</span></a></li>
+                            <li class="list-group-item">4、<a  href='javascript:;' onclick='openGoal("2","目标保存测试2")'  target='content'><span>目标保存测试2</span></a></li>
+                        </ul>
+            </div>
+        </div>
+        <div  class="col-lg-8">
+            <h4 class="text-left">任务结构</h4>
+        </div>
+        <div  class="col-lg-2">
+            <h4 class="text-left">任务详情</h4>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../gojs/go.js"></script>
+
+</head>
+<body>
+<div id="myDiagramDiv" style="width:1200px; height:850px; background-color: #DAE4E4;"></div>
+<script>
+
+    var goObj = go.GraphObject.make;
+    myDiagram =
+        goObj(go.Diagram, "myDiagramDiv",
+            {
+                "undoManager.isEnabled": true
+            });
+
+    myDiagram.add(
+        goObj(go.Node, "Auto",
+            goObj(go.Shape, "RoundedRectangle",
+                {
+                    fill: goObj(go.Brush, "Linear",
+                        {0.0: "Violet", 1.0: "Lavender"})
+                }),
+            goObj(go.TextBlock, "测试文本!",
+                {margin: 5}),
+            goObj("Button", {
+                    alignment: go.Spot.Right,
+                    alignmentFocus: go.Spot.Left,
+                    click: function (e, obj) {
+                        console.log(e);
+                        console.log(obj);
+                        alert("点击了添加阿牛");
+                    }
+                },
+                goObj(go.TextBlock, "新增+",  // the Button content
+                    {font: "bold 8pt sans-serif"}))
+        ));
+
+</script>
+</body>
+</html>
