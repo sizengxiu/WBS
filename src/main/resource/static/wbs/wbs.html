@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link  rel="stylesheet" type="text/css" href="/wbs/node_modules/bootstrap/dist/css/bootstrap.css">
+    <link  rel="stylesheet" type="text/css" href="/wbs/bootstrap/css/bootstrap.css">
     <link  rel="stylesheet" type="text/css" href="/wbs/wbs/wbs.css">
     <script src="/wbs/node_modules/jquery/dist/jquery.js"></script>
-    <script src="/wbs/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="/wbs/bootstrap/js/bootstrap.js"></script>
+    <script src="/wbs/node_modules/gojs/release/go.js"></script>
     <script src="/wbs/wbs/wbs.js"></script>
 <!--
     <link  rel="stylesheet" type="text/css" href="/WBS/static/node_modules/bootstrap/dist/css/bootstrap.css">
@@ -28,9 +29,11 @@
             <p></p>
 
             <div class="row" >
-                <div  class="col-lg-8"><input type="text" class="form-control" id="goalDec" placeholder="请输入目标关键字" ></div>
-                <div  class="col-lg-1"></div>
-                <div  class="col-lg-3"> <button type="button" class="btn btn-primary" onclick="getGoalList()">搜索</button></div>
+                <div  class="col-lg-6"><input type="text" class="form-control" id="goalDec" placeholder="请输入目标关键字" ></div>
+                <div  class="col-lg-6">
+                    <button type="button" class="btn btn-primary" onclick="getGoalList()">搜索</button>
+                    <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#goalAddDialog">新增目标</button>
+                </div>
             </div>
             <div class="row margin-top-5" style="overflow-y: auto">
                         <ul  id="goal_list_ul" class="list-group" >
@@ -89,6 +92,65 @@
             <h4 class="text-left">任务详情</h4>
         </div>
     </div>
+</div>
+
+
+
+    <div class="modal fade" id="goalAddDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        新增目标
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <textarea id="goalDes" class="form-control" rows="5"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                    </button>
+                    <button type="button" class="btn btn-primary" onclick="openAddGoalPanel()">
+                        保存
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+
+
+
+<!-- 按钮触发模态框 -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    开始演示模态框
+</button>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    模态框（Modal）标题
+                </h4>
+            </div>
+            <div class="modal-body">
+                在这里添加一些文本
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    提交更改
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
 </div>
 </body>
 </html>
