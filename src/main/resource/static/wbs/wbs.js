@@ -3,21 +3,32 @@ var globalURL = "localhost:8080";
 var $go = go.GraphObject.make;
 var myDiagram;
 
+//所选的类别信息
+var selectedItemId=null;
+var selectedItemDes=null;
 
+var hello="你好";
 $(document).ready(function () {
 
-    $('#goalAddDialog').on('show.bs.modal', function(){
+    $('#itemAddDialog').on('show.bs.modal', function(){
         var $this = $(this);
         var $modal_dialog = $this.find('.modal-dialog');
         $this.css('display', 'block');
         $modal_dialog.css({'margin-top': Math.max(0, ($(window).height() - $modal_dialog.height()) / 2) });
     });
 
-    //$("#goalAddDialog").modal({backdrop: false, keyboard: false});
+    //$("#itemAddDialog").modal({backdrop: false, keyboard: false});
     initTree();
 
+    //此处是为了解决对话框再次打开数据任然还在的问题
+    $('#itemAddDialog').on('hide.bs.modal', function () {
+        document.getElementById("itemAddForm").reset();
+    });
+    $('#goalAddDialog').on('hide.bs.modal', function () {
+        document.getElementById("itemAddForm").reset();
+    });
 
-
+    getItemList();
 });
 
 
@@ -65,14 +76,14 @@ function initTree(){
 }
 
 /**
- * 获取目标列表
+ * 获取并刷新类别列表
  */
-function getGoalList() {
-    var des = $("#goalDec").val();
+function getItemList() {
+    var des = $("#itemDesSearch").val();
     console.info(des);
     $.ajax({
         type: "post",
-        url: "/wbs/task/getGoals",
+        url: "/wbs/task/getItems",
         data: {"des": des},
         dataType: "json",
         success: function (result) {
@@ -82,12 +93,12 @@ function getGoalList() {
                 $.each(result.data, function (i, item) {
                     menuList += "<li class=\"list-group-item\">";
                     // menuList +=item.des;
-                    menuList += i + "、<a  href='javascript:;' onclick='openGoal(\"" + item.id + "\",\"" + item.des + "\")'  target='content'><span>" + item.des + "</span></a>";
+                    menuList += i + "、<a  href='javascript:;' onclick='openItem(\"" + item.id + "\",\"" + item.des + "\")' ><span>" + item.des + "</span></a>";
                     menuList += "</li>";
                 });
-                $("#goal_list_ul").html('');
+                $("#item_list_ul").html('');
                 ;
-                $("#goal_list_ul").append(menuList);
+                $("#item_list_ul").append(menuList);
                 console.info(menuList);
             } else {
                 $("#searchResult").html("出现错误：" + result.msg);
@@ -98,12 +109,54 @@ function getGoalList() {
         }
     });
 }
-function openAddGoalDialog(){
 
+/**
+ * 保存类别
+ */
+function saveItem(){
+    var des=$("#itemDes").val();
+    $.ajax({
+        type: "post",
+        url: "/wbs/task/saveItem",
+        data: {"des": des},
+        dataType: "json",
+        success: function (result) {
+            if (result.success) {
+                console.log("保存成功！");
+                getItemList();
+            }
+        }
+    });
+}
+/**
+ * 目标类别
+ */
+function saveGoal(){
+    var goal={itemId:selectedItemId};
+    goal.des=$("#goalDes").val();
+    $.ajax({
+        type: "post",
+        url: "/wbs/task/saveGoal",
+        data: goal,
+        dataType: "json",
+        success: function (result) {
+            if (result.success) {
+                console.log("目标保存成功！");
+                openItem();
+            }
+        }
+    });
 }
 
-
-function openGoal(id, des) {
+/**
+ * 打开所选类别
+ * @param id
+ * @param des
+ */
+function openItem(id, des) {
+    $("#taskInfo").show();
+    selectedItemId=id;
+    selectedItemDes=des;
     $.ajax({
         type: "post",
         url: "/wbs/task/getTaskTreeByGoalId",

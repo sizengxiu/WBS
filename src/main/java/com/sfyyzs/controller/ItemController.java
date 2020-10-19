@@ -1,8 +1,8 @@
 package com.sfyyzs.controller;
 
-import com.sfyyzs.model.Goal;
+import com.sfyyzs.model.Item;
 import com.sfyyzs.model.Result;
-import com.sfyyzs.service.GoalService;
+import com.sfyyzs.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,10 +16,10 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("task")
-public class GoalController {
+public class ItemController {
 
     @Autowired
-    private GoalService goalService;
+    private ItemService itemService;
 
     /**
      * 获取目标列表
@@ -28,9 +28,9 @@ public class GoalController {
      * @auther: szx
      * @date: 2020/10/18 17:02
      */
-    @RequestMapping("getGoals")
-    public Result getGoals(String des){
-        List<Goal> list = goalService.getGoals(des);
+    @RequestMapping("getItems")
+    public Result getItems(String des){
+        List<Item> list = itemService.getItems(des);
         return Result.getSuccessResult(list);
     }
     /**
@@ -40,9 +40,9 @@ public class GoalController {
      * @auther: szx
      * @date: 2020/10/18 17:02
      */
-    @RequestMapping("saveGoal")
-    public Result saveGoal(@RequestParam("des") String des,@RequestParam("itemId")int itemId){
-        int id=goalService.saveGoal(des,itemId);
+    @RequestMapping("saveItem")
+    public Result saveItem(@RequestParam("des") String des){
+        int id=itemService.saveItem(des);
         return Result.getSuccessResult(id);
     }
 

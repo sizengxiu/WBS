@@ -2,6 +2,7 @@ package com.sfyyzs.mapper;
 
 import com.sfyyzs.model.Goal;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -9,6 +10,7 @@ import java.util.List;
  * @user szx
  * @date 2020/10/18 16:18
  */
+@Repository
 public interface GoalMapper {
     /**
      * 获取目标列表

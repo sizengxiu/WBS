@@ -19,7 +19,7 @@ public class GoalServiceImpl implements GoalService {
     @Autowired
     private GoalMapper goalMapper;
     @Override
-    public int saveGoal(String des) {
+    public int saveGoal(String des,int itemId) {
         Goal goal=new Goal();
         goal.setDes(des);
         goal.setTime(new Date());

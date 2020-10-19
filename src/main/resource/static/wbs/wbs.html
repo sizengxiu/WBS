@@ -9,6 +9,7 @@
     <script src="/wbs/bootstrap/js/bootstrap.js"></script>
     <script src="/wbs/gojs/go.js"></script>
     <script src="/wbs/wbs/wbs.js"></script>
+    <script src="/wbs/vue/vue.min.js"></script>
 <!--
     <link  rel="stylesheet" type="text/css" href="/WBS/static/node_modules/bootstrap/dist/css/bootstrap.css">
     <link  rel="stylesheet" type="text/css" href="/WBS/static/wbs/wbs.css">
@@ -25,63 +26,28 @@
 <div class="container1">
     <div class="row" >
         <div  class="col-lg-2">
-            <h4 class="text-left">目标列表</h4>
+            <h4 class="text-left">类别列表</h4>
             <p></p>
 
             <div class="row" >
-                <div  class="col-lg-6"><input type="text" class="form-control" id="goalDec" placeholder="请输入目标关键字" ></div>
+                <div  class="col-lg-6"><input type="text" class="form-control" id="itemDesSearch" placeholder="请输入类别" ></div>
                 <div  class="col-lg-6">
-                    <button type="button" class="btn btn-primary" onclick="getGoalList()">搜索</button>
-                    <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#goalAddDialog">新增目标</button>
+                    <button type="button" class="btn btn-primary" onclick="getItemList()">搜索</button>
+                    <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#itemAddDialog">新增</button>
                 </div>
             </div>
             <div class="row margin-top-5" style="overflow-y: auto">
-                        <ul  id="goal_list_ul" class="list-group" >
+                        <ul  id="item_list_ul" class="list-group" >
                             <li class="list-group-item">免费域名注册</li>
                             <li class="list-group-item">免费 Window 空间托管</li>
                             <li class="list-group-item">图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量</li>
                             <li class="list-group-item">24*7 支持</li>
                             <li class="list-group-item">每年更新成本</li>
-                            <li class="list-group-item">免费域名注册</li>
-                            <li class="list-group-item">免费 Window 空间托管</li>
-                            <li class="list-group-item">图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量</li>
-                            <li class="list-group-item">24*7 支持</li>
-                            <li class="list-group-item">每年更新成本</li>
-                            <li class="list-group-item">免费域名注册</li>
-                            <li class="list-group-item">免费 Window 空间托管</li>
-                            <li class="list-group-item">图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量</li>
-                            <li class="list-group-item">24*7 支持</li>
-                            <li class="list-group-item">每年更新成本</li>
-                            <li class="list-group-item">免费域名注册</li>
-                            <li class="list-group-item">免费 Window 空间托管</li>
-                            <li class="list-group-item">图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量</li>
-                            <li class="list-group-item">24*7 支持</li>
-                            <li class="list-group-item">每年更新成本</li>
-                            <li class="list-group-item">免费域名注册</li>
-                            <li class="list-group-item">免费 Window 空间托管</li>
-                            <li class="list-group-item">图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量</li>
-                            <li class="list-group-item">24*7 支持</li>
-                            <li class="list-group-item">每年更新成本</li>
-                            <li class="list-group-item">免费域名注册</li>
-                            <li class="list-group-item">免费 Window 空间托管</li>
-                            <li class="list-group-item">图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量</li>
-                            <li class="list-group-item">24*7 支持</li>
-                            <li class="list-group-item">每年更新成本</li>
-                            <li class="list-group-item">免费域名注册</li>
-                            <li class="list-group-item">免费 Window 空间托管</li>
-                            <li class="list-group-item">图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量</li>
-                            <li class="list-group-item">24*7 支持</li>
-                            <li class="list-group-item">每年更新成本</li>
-                            <li class="list-group-item">免费域名注册</li>
-                            <li class="list-group-item">免费 Window 空间托管</li>
-                            <li class="list-group-item">图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量</li>
-                            <li class="list-group-item">24*7 支持</li>
-                            <li class="list-group-item">每年更新成本</li>
-                            <li class="list-group-item">0、<a  href='javascript:;' onclick='openGoal("5","目标保存测试5")'  target='content'><span>目标保存测试5</span></a></li>
-                            <li class="list-group-item">1、<a  href='javascript:;' onclick='openGoal("4","目标保存测试4")'  target='content'><span>目标保存测试4</span></a></li>
-                            <li class="list-group-item">2、<a  href='javascript:;' onclick='openGoal("3","目标保存测试3")'  target='content'><span>目标保存测试3</span></a></li>
-                            <li class="list-group-item">3、<a  href='javascript:;' onclick='openGoal("1","目标保存测试1")'  target='content'><span>目标保存测试1</span></a></li>
-                            <li class="list-group-item">4、<a  href='javascript:;' onclick='openGoal("2","目标保存测试2")'  target='content'><span>目标保存测试2</span></a></li>
+                            <li class="list-group-item">0、<a  href='javascript:void(0);' onclick='openItem("5","目标保存测试5")'  ><span>目标保存测试5</span></a></li>
+                            <li class="list-group-item">1、<a  href='javascript:;' onclick='openItem("4","目标保存测试4")'  ><span>目标保存测试4</span></a></li>
+                            <li class="list-group-item">2、<a  href='javascript:;' onclick='openItem("3","目标保存测试3")'  target='content'><span>目标保存测试3</span></a></li>
+                            <li class="list-group-item">3、<a  href='javascript:;' onclick='openItem("1","目标保存测试1")'  target='content'><span>目标保存测试1</span></a></li>
+                            <li class="list-group-item">4、<a  href='javascript:;' onclick='openItem("2","目标保存测试2")'  target='content'><span>目标保存测试2</span></a></li>
                         </ul>
             </div>
         </div>
@@ -91,13 +57,21 @@
         </div>
         <div  class="col-lg-2">
             <h4 class="text-left">任务详情</h4>
+            <div id="taskInfo" class="row"  style="display: none">
+
+                <div  class="col-lg-6">目标列表</div>
+                <div  class="col-lg-6">
+                    <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#goalAddDialog">新增目标</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 
 
-    <div class="modal fade" id="goalAddDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<!--新增类型-->
+    <div class="modal fade" id="itemAddDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -105,18 +79,22 @@
                         &times;
                     </button>
                     <h4 class="modal-title" id="myModalLabel">
-                        新增目标
+                        新增类型
                     </h4>
                 </div>
                 <div class="modal-body">
-                    <textarea id="goalDes" class="form-control" rows="5"></textarea>
+                    <form  id="itemAddForm" class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="itemDes" class="col-lg-2 control-label">类型：</label>
+                            <div class="col-lg-10">
+                                <input type="text" class="form-control" id="itemDes" placeholder="请输入类型">
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                    </button>
-                    <button type="button" class="btn btn-primary" onclick="openAddGoalPanel()">
-                        保存
-                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="saveItem()">保存</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
@@ -124,6 +102,66 @@
 
 
 
+<!--新增目标-->
+<div class="modal fade" id="goalAddDialog" tabindex="-1" role="dialog" aria-labelledby="myGoalModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myGoalModalLabel">
+                    新增目标
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form  id="goalAddForm" class="form-horizontal" role="form">
+                    <label for="itemDes" class="col-lg-2 control-label">类型：</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="itemDes" placeholder="请输入类型">
+                    </div>
+                    <div class="form-group">
+                        <textarea id="goalDes" class="form-control" rows="5"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="saveGoal()">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+{{hello}}
+<!-- 按钮触发模态框 -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    开始演示模态框
+</button>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    模态框（Modal）标题
+                </h4>
+            </div>
+            <div class="modal-body">
+                在这里添加一些文本
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                </button>
+                <button type="button" class="btn btn-primary">
+                    提交更改
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 <!-- 按钮触发模态框 -->
 <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
     开始演示模态框

@@ -1,6 +1,7 @@
 package com.sfyyzs.service;
 
 import com.sfyyzs.model.Goal;
+import com.sfyyzs.model.Item;
 
 import java.util.List;
 
@@ -8,21 +9,21 @@ import java.util.List;
  * @user szx
  * @date 2020/10/18 16:56
  */
-public interface GoalService {
+public interface ItemService {
     /**
-     * 新增目标
+     * 新增类别
      * @param:
      * @return:
      * @auther: szx
      * @date: 2020/10/18 16:56
      */
-    int saveGoal(String des,int itemId);
+    int saveItem(String des);
     /**
-     * 获取目标列表
+     * 获取类别列表
      * @param:
      * @return:
      * @auther: szx
      * @date: 2020/10/18 16:59
      */
-    List<Goal> getGoals(String des);
+    List<Item> getItems(String des);
 }
