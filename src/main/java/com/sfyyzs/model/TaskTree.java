@@ -7,7 +7,7 @@ package com.sfyyzs.model;
 public class TaskTree {
     private Integer id;
     private String des;
-    private String parent;
+    private Integer parent;
     private int type;
 
     public Integer getId() {
@@ -26,11 +26,11 @@ public class TaskTree {
         this.des = des;
     }
 
-    public String getParent() {
+    public Integer getParent() {
         return parent;
     }
 
-    public void setParent(String parent) {
+    public void setParent(Integer parent) {
         this.parent = parent;
     }
 

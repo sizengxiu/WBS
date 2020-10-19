@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -31,7 +32,28 @@ public class TaskController {
      */
     @RequestMapping("getTaskTreeByGoalId")
     public Result  getTaskTreeByGoalId(int id){
-        List<TaskTree> list=taskServiceI.getTaskTreeByGoalId(id);
+        List<TaskTree> list;//=taskServiceI.getTaskTreeByGoalId(id);
+        TaskTree tree=new TaskTree();
+        tree.setDes("1");
+        tree.setId(1);
+        tree.setParent(-1);
+        TaskTree tree2=new TaskTree();
+        tree2.setDes("2");
+        tree2.setId(2);
+        tree2.setParent(1);
+        TaskTree tree3=new TaskTree();
+        tree3.setDes("3");
+        tree3.setId(3);
+        tree3.setParent(1);
+        TaskTree tree4=new TaskTree();
+        tree4.setDes("4");
+        tree4.setId(4);
+        tree4.setParent(2);
+        list=new LinkedList<>();
+        list.add(tree);
+        list.add(tree2);
+        list.add(tree3);
+        list.add(tree4);
         return Result.getSuccessResult(list);
     }
     /**
