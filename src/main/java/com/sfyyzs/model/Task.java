@@ -1,6 +1,7 @@
 package com.sfyyzs.model;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @user szx
@@ -9,7 +10,7 @@ import java.util.Date;
 public class Task {
     private Integer id;
     private String des;
-    private String parent;
+    private Integer parent;
     private String responsePerson;
     private String implementation;
     private String plan;
@@ -17,6 +18,8 @@ public class Task {
     private Integer state;
     private Integer goalId;
     private Date time;
+
+    private List<Task> children;
 
     public Integer getId() {
         return id;
@@ -27,16 +30,13 @@ public class Task {
     }
 
 
-
-    public String getParent() {
+    public Integer getParent() {
         return parent;
     }
 
-    public void setParent(String parent) {
+    public void setParent(Integer parent) {
         this.parent = parent;
     }
-
-
 
     public Integer getState() {
         return state;
@@ -100,5 +100,13 @@ public class Task {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public List<Task> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Task> children) {
+        this.children = children;
     }
 }

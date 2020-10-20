@@ -19,7 +19,7 @@ public interface TaskMapper {
      * @auther: szx
      * @date: 2020/10/18 16:20
      */
-    List<TaskTree> getTaskTreeByGoalId(@Param("goalId") int goalId);
+    List<TaskTree> getTaskTreeByItemId(@Param("itemId") int itemId);
     /**
      * 根据目标Id获取对应的任务树
      * @param:
@@ -27,7 +27,23 @@ public interface TaskMapper {
      * @auther: szx
      * @date: 2020/10/18 16:20
      */
-    List<TaskTree> getTaskTreeByItemId(@Param("itemId") int itemId);
+    List<TaskTree> getTaskListByItemId(@Param("itemId") int itemId);
+    /**
+     * 根据目标Id获取对应的任务（最外层任务）
+     * @param:
+     * @return:
+     * @auther: szx
+     * @date: 2020/10/18 16:20
+     */
+    List<TaskTree> getTaskTreeListByItemId(@Param("itemId") int itemId);
+    /**
+     * 获取子任务
+     * @param:
+     * @return:
+     * @auther: szx
+     * @date: 2020/10/20 23:12
+     */
+    List<TaskTree> getSubTree(@Param("id") int id);
     /**
      * 任务保存
      * @param:

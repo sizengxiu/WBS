@@ -27,7 +27,7 @@
 
 <h1 class="text-center">任务分解工具</h1>
 
-<div class="container1">
+<div class="container1" style="margin:15px;">
     <div class="row" >
         <div  class="col-lg-2">
             <h4 class="text-left">类别列表</h4>
@@ -42,16 +42,6 @@
             </div>
             <div class="row margin-top-5" style="overflow-y: auto">
                         <ul  id="item_list_ul" class="list-group" >
-                            <li class="list-group-item">免费域名注册</li>
-                            <li class="list-group-item">免费 Window 空间托管</li>
-                            <li class="list-group-item">图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量图像的数量</li>
-                            <li class="list-group-item">24*7 支持</li>
-                            <li class="list-group-item">每年更新成本</li>
-                            <li class="list-group-item">0、<a  href='javascript:void(0);' onclick='openItem("5","目标保存测试5")'  ><span>目标保存测试5</span></a></li>
-                            <li class="list-group-item">1、<a  href='javascript:;' onclick='openItem("4","目标保存测试4")'  ><span>目标保存测试4</span></a></li>
-                            <li class="list-group-item">2、<a  href='javascript:;' onclick='openItem("3","目标保存测试3")'  target='content'><span>目标保存测试3</span></a></li>
-                            <li class="list-group-item">3、<a  href='javascript:;' onclick='openItem("1","目标保存测试1")'  target='content'><span>目标保存测试1</span></a></li>
-                            <li class="list-group-item">4、<a  href='javascript:;' onclick='openItem("2","目标保存测试2")'  target='content'><span>目标保存测试2</span></a></li>
                         </ul>
             </div>
         </div>
@@ -62,7 +52,7 @@
         <div  class="col-lg-4">
             <h4 class="text-left">任务详情</h4>
             <div id="goalInfo" class="row"  style="display: none">
-                <div class="row" >
+                <div class="row"  >
                     <div  class="col-lg-6">目标列表</div>
                     <div  class="col-lg-6">
                         <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#goalAddDialog">新增目标</button>
@@ -72,6 +62,7 @@
                     <table id="goalDg"></table>
                 </div>
             </div>
+            <p></p>
             <div id="taskInfo" class="row"  style="display: none">
                 <div class="row" >
                     <div  class="col-lg-6">任务列表</div>
@@ -229,42 +220,6 @@
     </div><!-- /.modal -->
 </div>
 
-
-<div id="goalAddDialog1">
-<div>
-    {{hello}}
-</div>
-</div>
-
-<!-- 按钮触发模态框 -->
-<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
-    开始演示模态框
-</button>
-<!-- 模态框（Modal） -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                    &times;
-                </button>
-                <h4 class="modal-title" id="myModalLabel">
-                    模态框（Modal）标题
-                </h4>
-            </div>
-            <div class="modal-body">
-                在这里添加一些文本
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭
-                </button>
-                <button type="button" class="btn btn-primary">
-                    提交更改
-                </button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal -->
-</div>
 
 </body>
 </html>

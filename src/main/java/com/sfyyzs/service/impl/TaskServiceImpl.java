@@ -20,13 +20,17 @@ public class TaskServiceImpl implements TaskServiceI {
     @Autowired
     private TaskMapper taskMapper;
     @Override
-    public List<TaskTree> getTaskTreeByGoalId(int id) {
-        return taskMapper.getTaskTreeByGoalId(id);
+    public List<TaskTree> getTaskTreeByItemId(int id) {
+        return taskMapper.getTaskTreeByItemId(id);
     }
 
     @Override
-    public List<TaskTree> getTaskTreeByItemId(int itemId) {
-        return taskMapper.getTaskTreeByItemId(itemId);
+    public List<TaskTree> getTaskListByItemId(int itemId) {
+        return taskMapper.getTaskListByItemId(itemId);
+    }
+    @Override
+    public List<TaskTree> getTaskTreeListByItemId(int itemId) {
+        return taskMapper.getTaskTreeListByItemId(itemId);
     }
 
     @Override

@@ -48,6 +48,7 @@ function initTree(){
     myDiagram =
         $go(go.Diagram, "myDiagramDiv",
             {
+                "autoScale":go.Diagram.Uniform,
                 "undoManager.isEnabled": true,
                 layout: $go(go.TreeLayout, // specify a Diagram.layout that arranges trees
                     {angle: 0, layerSpacing: 35})
@@ -56,8 +57,8 @@ function initTree(){
         $go(go.Node, "Horizontal",
             {background: "#44CCFF"},
 
-            $go(go.TextBlock, "Default Text",
-                {margin: 1, stroke: "white", font: "bold 16px sans-serif", isMultiline: true},
+            $go(go.TextBlock, "请选择左侧要查看的类别",
+                {margin: 10, stroke: "white", font: "bold 20px sans-serif", isMultiline: true,wrap: go.TextBlock.WrapFit,width:250},
                 new go.Binding("text", "des"),
                 new go.Binding("editable", "editable"),
                 new go.Binding("key", "id")
@@ -72,18 +73,13 @@ function initTree(){
     model.nodeDataArray =
         [ // the "key" and "parent" property names are required,
             // but you can add whatever data properties you need for your app
-            {editable: true, key: "1", name: "Don Meow"},
-            {editable: true, key: "2", parent: "1", des: "目標1"},
-            {editable: true, key: "3", parent: "1", des: "目標2"},
-            {editable: true, key: "4", parent: "2", des: "任務1"},
-            {editable: true, key: "5", parent: "2", des: "任务2好多好多号都阿斯顿发，送到福建安徽交罚款单链接"},
-            {editable: true, key: "6", parent: "3", des: "Munkustrap"}
+            {editable: true, key: "1", name: "请点击选择左侧类别"}
         ];
     myDiagram.model = model;
     myDiagram.linkTemplate =
         $go(go.Link,
-            {routing: go.Link.Orthogonal, corner: 5},
-            $go(go.Shape, {strokeWidth: 3, stroke: "#555"}));
+            {routing: go.Link.Orthogonal, corner: 6},
+            $go(go.Shape, {strokeWidth: 1, stroke: "#055"}));
 
 }
 
@@ -184,25 +180,34 @@ function openItem(id, des) {
 
 
 
-/*
     $.ajax({
         type: "post",
-        url: "/wbs/task/getTaskTreeByGoalId",
-        data: {"goalId": id,"id":1},
+        url: "/wbs/task/getTaskTreeByItemId",
+        data: {itemId:globalItemData.selectedItemId},
         dataType: "json",
         success: function (result) {
             if (result.success) {
                 console.info(result.data);
                 myDiagram.model.nodeDataArray=result.data;
                 var nodeDataArray=[];
+                var itemNode={editable: false, key: "-1",  des: globalItemData.selectedItemDes};
+                nodeDataArray.push(itemNode);
                 $.each(result.data, function (i, item) {
                     item.key=item.id;
+                    //最上层任务
+                    if(item.parent==-1){
+                        item.parent=item.goalId*(-1);
+                    }else if(item.parent==-2){//目标
+                        item.parent=-1;
+                        item.key=item.id*(-1);
+                    }
                     nodeDataArray.push(item);
+                    console.info(item);
                 });
                 myDiagram.model.nodeDataArray=nodeDataArray;
             }
         }
-    });*/
+    });
 }
 
 /**
@@ -232,13 +237,13 @@ function initGoalDataGrid(itemId){
  * @param itemId
  */
 function initTaskDataGrid(){
-    $('#taskDg').datagrid({
+    $('#taskDg').treegrid({
         fitColumns:true,
         singleSelect:true,
         checkOnSelect:true,
         idField:'id',
-        treeField:parent,
-        url:'/wbs/task/getTaskTreeByItemId',
+        treeField:'des',
+        url:'/wbs/task/getTaskTreeListByItemId',
         queryParams:{itemId:-1},
         columns:[[
             {field:'id',title:'id',hidden:true},
@@ -252,6 +257,11 @@ function initTaskDataGrid(){
             {field:'op',title:'操作',width:160,formatter:taskOpFormat}
         ]],
         loadFilter: function(result){
+            console.info(result.data);
+            for(var i=0,length=result.data.length;i<length;i++){
+                result.data[i]._parentId=result.data[i].parent;
+            }
+            console.info(result.data);
             return result.data;
         }
     });
@@ -261,19 +271,19 @@ function reloadGoalList(){
     $('#goalDg').datagrid('reload',{itemId:globalItemData.selectedItemId,test:1});
 }
 function reloadTaskList(){
-    $('#taskDg').datagrid('reload',{itemId:globalItemData.selectedItemId});
+    $('#taskDg').treegrid('reload',{itemId:globalItemData.selectedItemId});
 }
 
 
 function goalOpFormat(rowIndex, rowData){
     return '<a href="#" onclick="editGoal()">编辑</a>'
             +' <a href="#" onclick="deletGoal()">删除</a>'
-            +' <a href="javascript:;" onclick="openTaskAddDialog(\'' +rowData.id+'\',\''+rowData.des+'\',-1)">分解任务</a>';
+            +' <a href="javascript:;" onclick="openTaskAddDialog(\'' +rowData.id+'\',\''+rowData.des+'\',-1,\'\')">分解任务</a>';
 }
 function taskOpFormat(rowIndex, rowData){
     return '<a href="#" onclick="editGoal()">编辑</a>'
             +' <a href="#" onclick="deletGoal()">删除</a>'
-            +' <a href="javascript:;" onclick="openTaskAddDialog(\'' +rowData.id+'\',\''+rowData.des+'\',\''+rowData.parent+'\')">分解任务</a>';
+            +' <a href="javascript:;" onclick="openTaskAddDialog(\'' +rowData.goalId+'\',\''+rowData.des+'\',\''+rowData.id+'\',\''+rowData.des+'\')">分解任务</a>';
 }
 
 /**
@@ -281,14 +291,17 @@ function taskOpFormat(rowIndex, rowData){
  * @param goalId
  * @param goalDes
  */
-function openTaskAddDialog(goalId,goalDes,parentId){
+function openTaskAddDialog(goalId,goalDes,parentId,parentDes){
     $('#taskAddDialog').modal('show');
     $("#itemDesIdForTaskAdd").val(globalItemData.selectedItemDes);
     $("#goalIdForTaskAdd").val(goalId);
+    $("#parentDesAdd").val(parentDes);
     $("#goalDesForTaskAdd").val(goalDes);
     $("#parentAdd").val(parentId);
-    if(parentId==-1){
+    if(parentId=="-1"){
         $("#parent_task").hide();
+    }else{
+        $("#parent_task").show();
     }
 }
 
@@ -312,7 +325,7 @@ function saveTask(){
         success: function (result) {
             if (result.success) {
                 console.log("任务保存成功！");
-                openItem();
+                openItem(globalItemData.selectedItemId,globalItemData.selectedItemDes);
                 $('#taskAddDialog').modal('hide');
             }
         }

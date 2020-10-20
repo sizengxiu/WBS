@@ -8,6 +8,7 @@ public class TaskTree {
     private Integer id;
     private String des;
     private Integer parent;
+    private Integer goalId;
     private int type;
 
     public Integer getId() {
@@ -40,5 +41,13 @@ public class TaskTree {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public Integer getGoalId() {
+        return goalId;
+    }
+
+    public void setGoalId(Integer goalId) {
+        this.goalId = goalId;
     }
 }

@@ -6,6 +6,7 @@
         <id property="id" column="id" />
         <result property="des" column="des" />
         <result property="parent" column="parent" />
+        <result property="goalId" column="goal_id" />
     </resultMap>
     <resultMap id="task" type="com.sfyyzs.model.Task">
         <id property="id" column="id" />
@@ -18,6 +19,20 @@
         <result property="confirmer" column="confirmer" />
         <result property="state" column="state" />
     </resultMap>
+    <resultMap id="BaseTreeResultMap" type="com.sfyyzs.model.Task">
+        <id property="id" column="id" />
+        <result property="des" column="des" />
+        <result property="parent" column="parent" />
+        <result property="goalId" column="goal_id" />
+        <result property="responsePerson" column="response_person" />
+        <result property="implementation" column="implementation" />
+        <result property="plan" column="plan" />
+        <result property="confirmer" column="confirmer" />
+        <result property="state" column="state" />
+        <collection property="children" ofType="com.sfyyzs.model.Task" column="id" jdbcType="INTEGER"
+                    select="getSubTree"/>
+    </resultMap>
+
 
 
     <insert id="saveTask" keyColumn="id" keyProperty="id" parameterType="com.sfyyzs.model.Task" useGeneratedKeys="true">
@@ -30,17 +45,36 @@
                 #{time,jdbcType=TIMESTAMP}, #{goalId,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}
                )
     </insert>
-    <select id="getTaskTreeByGoalId" parameterType="int" resultMap="taskTree">
-        select id,desc,parent
-        from wbs_task
-        where goal_id=#{goalId}
-        order by parent desc
-    </select>
     <select id="getTaskTreeByItemId" parameterType="int" resultMap="taskTree">
+        select id,des,-2 as parent,id as goal_id
+        from wbs_goal
+        where item_id=#{itemId}
+         union all
+        select id,des,parent,goal_id
+        from wbs_task
+        where goal_id in ( select id from wbs_goal where item_id=#{itemId})
+        order by id asc
+    </select>
+    <select id="getTaskListByItemId" parameterType="int" resultMap="task">
         select id,des,parent,goal_id,response_person,implementation,plan,confirmer
         from wbs_task
         where goal_id in ( select id from wbs_goal where item_id=#{itemId})
-        order by parent desc,id desc
+        order by parent asc,id desc
     </select>
+    <select id="getTaskTreeListByItemId" parameterType="int" resultMap="BaseTreeResultMap">
+        select id,des,parent,goal_id,response_person,implementation,plan,confirmer
+        from wbs_task
+        where goal_id in ( select id from wbs_goal where item_id=#{itemId})
+        and parent=-1
+        order by id asc
+    </select>
+    <select id="getSubTree" parameterType="int" resultMap="BaseTreeResultMap">
+        select id,des,parent,goal_id,response_person,implementation,plan,confirmer
+        from wbs_task
+        where parent= #{id}
+        order by id asc
+    </select>
+
+
 
 </mapper>
