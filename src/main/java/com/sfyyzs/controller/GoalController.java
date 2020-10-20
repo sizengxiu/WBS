@@ -29,8 +29,8 @@ public class GoalController {
      * @date: 2020/10/18 17:02
      */
     @RequestMapping("getGoals")
-    public Result getGoals(String des){
-        List<Goal> list = goalService.getGoals(des);
+    public Result getGoals(String des,int itemId){
+        List<Goal> list = goalService.getGoals(des,itemId);
         return Result.getSuccessResult(list);
     }
     /**

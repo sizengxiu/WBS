@@ -16,7 +16,6 @@
         <result property="implementation" column="implementation" />
         <result property="plan" column="plan" />
         <result property="confirmer" column="confirmer" />
-        <result property="implementation" column="implementation" />
         <result property="state" column="state" />
     </resultMap>
 
@@ -36,6 +35,12 @@
         from wbs_task
         where goal_id=#{goalId}
         order by parent desc
+    </select>
+    <select id="getTaskTreeByItemId" parameterType="int" resultMap="taskTree">
+        select id,des,parent,goal_id,response_person,implementation,plan,confirmer
+        from wbs_task
+        where goal_id in ( select id from wbs_goal where item_id=#{itemId})
+        order by parent desc,id desc
     </select>
 
 </mapper>

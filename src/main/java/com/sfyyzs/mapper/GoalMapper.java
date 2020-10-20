@@ -19,7 +19,7 @@ public interface GoalMapper {
      * @auther: szx
      * @date: 2020/10/18 16:20
      */
-    List<Goal> getGoals(@Param("des")String des);
+    List<Goal> getGoals(@Param("des")String des,@Param("itemId")int itemId);
 
     /**
      * 新增目标

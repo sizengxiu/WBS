@@ -13,6 +13,7 @@ public class Goal {
     private String des;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date time;
+    private Integer itemId;
 
     public Integer getId() {
         return id;
@@ -36,5 +37,13 @@ public class Goal {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public Integer getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Integer itemId) {
+        this.itemId = itemId;
     }
 }

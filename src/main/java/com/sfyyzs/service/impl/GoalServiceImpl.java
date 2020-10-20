@@ -23,13 +23,14 @@ public class GoalServiceImpl implements GoalService {
         Goal goal=new Goal();
         goal.setDes(des);
         goal.setTime(new Date());
+        goal.setItemId(itemId);
         goalMapper.saveGoal(goal);
         return goal.getId();
     }
 
     @Override
-    public List<Goal> getGoals(String des) {
-        return goalMapper.getGoals(des);
+    public List<Goal> getGoals(String des,int itemId) {
+        return goalMapper.getGoals(des,itemId);
     }
 
 

@@ -6,16 +6,24 @@
         <id property="id" column="id" />
         <result property="des" column="des" />
         <result property="time" column="time" />
+        <result property="itemId" column="item_id" />
     </resultMap>
 
     <insert id="saveGoal" parameterType="com.sfyyzs.model.Goal" keyProperty="id" useGeneratedKeys="true">
-        insert into wbs_goal(des,time,state)
-        values(#{des},#{time},1)
+        insert into wbs_goal(des,item_id,time,state)
+        values(#{des},#{itemId},#{time},1)
     </insert>
-    <select id="getGoals" parameterType="string" resultMap="goal">
-        select id,des,time
+    <select id="getGoals" parameterType="map" resultMap="goal">
+        select id,des,time,item_id
         from wbs_goal
-        where des like concat('%',concat(#{des},'%'))
+        <where>
+            <if test="des !=null and des !='' ">
+                des like concat('%',concat(#{des},'%'))
+            </if>
+            <if test="itemId !=null">
+                item_id=#{itemId}
+            </if>
+        </where>
         order by time desc
     </select>
 

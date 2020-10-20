@@ -7,6 +7,7 @@ import com.sfyyzs.service.TaskServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,7 +25,14 @@ public class TaskServiceImpl implements TaskServiceI {
     }
 
     @Override
+    public List<TaskTree> getTaskTreeByItemId(int itemId) {
+        return taskMapper.getTaskTreeByItemId(itemId);
+    }
+
+    @Override
     public void saveTask(Task task) {
+        task.setTime(new Date());
+        task.setState(1);
         taskMapper.saveTask(task);
     }
 }

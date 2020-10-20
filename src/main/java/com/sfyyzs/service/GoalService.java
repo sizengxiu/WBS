@@ -24,5 +24,5 @@ public interface GoalService {
      * @auther: szx
      * @date: 2020/10/18 16:59
      */
-    List<Goal> getGoals(String des);
+    List<Goal> getGoals(String des,int itemId);
 }

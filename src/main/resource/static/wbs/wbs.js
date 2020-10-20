@@ -7,9 +7,16 @@ var myDiagram;
 var selectedItemId=null;
 var selectedItemDes=null;
 
-var hello="你好";
-$(document).ready(function () {
+var globalVm;
+var globalItemData={selectedItemId:selectedItemId,selectedItemDes:selectedItemDes,hello:"sadf"};
 
+
+
+$(document).ready(function () {
+    globalVm = new Vue({
+        el: '#goalAddDialog',
+        data: globalItemData
+    });
     $('#itemAddDialog').on('show.bs.modal', function(){
         var $this = $(this);
         var $modal_dialog = $this.find('.modal-dialog');
@@ -29,6 +36,11 @@ $(document).ready(function () {
     });
 
     getItemList();
+
+    initGoalDataGrid(1);
+    initTaskDataGrid();
+
+
 });
 
 
@@ -124,6 +136,7 @@ function saveItem(){
             if (result.success) {
                 console.log("保存成功！");
                 getItemList();
+                $('#itemAddDialog').modal('hide');
             }
         }
     });
@@ -133,7 +146,8 @@ function saveItem(){
  */
 function saveGoal(){
     var goal={itemId:selectedItemId};
-    goal.des=$("#goalDes").val();
+    goal.des=$("#goalDesForAdd").val();
+    goal.itemId=globalItemData.selectedItemId;
     $.ajax({
         type: "post",
         url: "/wbs/task/saveGoal",
@@ -143,6 +157,7 @@ function saveGoal(){
             if (result.success) {
                 console.log("目标保存成功！");
                 openItem();
+                $('#goalAddDialog').modal('hide');
             }
         }
     });
@@ -155,8 +170,21 @@ function saveGoal(){
  */
 function openItem(id, des) {
     $("#taskInfo").show();
-    selectedItemId=id;
-    selectedItemDes=des;
+    $("#goalInfo").show();
+
+    globalVm.data={};
+    globalItemData.selectedItemId=id;
+    globalItemData.selectedItemDes=des;
+    globalItemData.hello="变了";
+    globalVm.data=globalItemData;
+    initGoalDataGrid(1);
+    initTaskDataGrid();
+    reloadGoalList();
+    reloadTaskList();
+
+
+
+/*
     $.ajax({
         type: "post",
         url: "/wbs/task/getTaskTreeByGoalId",
@@ -172,6 +200,120 @@ function openItem(id, des) {
                     nodeDataArray.push(item);
                 });
                 myDiagram.model.nodeDataArray=nodeDataArray;
+            }
+        }
+    });*/
+}
+
+/**
+ * 初始化目标列表
+ * @param itemId
+ */
+function initGoalDataGrid(itemId){
+    $('#goalDg').datagrid({
+        fitColumns:true,
+        singleSelect:true,
+        checkOnSelect:true,
+        url:'/wbs/task/getGoals',
+        queryParams:{itemId:-1},
+        columns:[[
+            {field:'id',title:'id',hidden:true},
+            {field:'itemId',title:'itemId',hidden:true},
+            {field:'des',title:'目标描述'},
+            {field:'op',title:'操作',width:160,formatter:goalOpFormat}
+        ]],
+        loadFilter: function(result){
+            return result.data;
+        }
+    });
+}
+/**
+ * 初始化任务列表
+ * @param itemId
+ */
+function initTaskDataGrid(){
+    $('#taskDg').datagrid({
+        fitColumns:true,
+        singleSelect:true,
+        checkOnSelect:true,
+        idField:'id',
+        treeField:parent,
+        url:'/wbs/task/getTaskTreeByItemId',
+        queryParams:{itemId:-1},
+        columns:[[
+            {field:'id',title:'id',hidden:true},
+            {field:'goalId',title:'goalId',hidden:true},
+            {field:'parent',title:'parentId',hidden:true},
+            {field:'des',title:'任务描述'},
+            {field:'responsePerson',title:'责任人'},
+            {field:'plan',title:'实施计划'},
+            {field:'implementation',title:'执行人'},
+            {field:'confirmer',title:'确认人'},
+            {field:'op',title:'操作',width:160,formatter:taskOpFormat}
+        ]],
+        loadFilter: function(result){
+            return result.data;
+        }
+    });
+}
+
+function reloadGoalList(){
+    $('#goalDg').datagrid('reload',{itemId:globalItemData.selectedItemId,test:1});
+}
+function reloadTaskList(){
+    $('#taskDg').datagrid('reload',{itemId:globalItemData.selectedItemId});
+}
+
+
+function goalOpFormat(rowIndex, rowData){
+    return '<a href="#" onclick="editGoal()">编辑</a>'
+            +' <a href="#" onclick="deletGoal()">删除</a>'
+            +' <a href="javascript:;" onclick="openTaskAddDialog(\'' +rowData.id+'\',\''+rowData.des+'\',-1)">分解任务</a>';
+}
+function taskOpFormat(rowIndex, rowData){
+    return '<a href="#" onclick="editGoal()">编辑</a>'
+            +' <a href="#" onclick="deletGoal()">删除</a>'
+            +' <a href="javascript:;" onclick="openTaskAddDialog(\'' +rowData.id+'\',\''+rowData.des+'\',\''+rowData.parent+'\')">分解任务</a>';
+}
+
+/**
+ * 打开添加任务对话框，并赋值
+ * @param goalId
+ * @param goalDes
+ */
+function openTaskAddDialog(goalId,goalDes,parentId){
+    $('#taskAddDialog').modal('show');
+    $("#itemDesIdForTaskAdd").val(globalItemData.selectedItemDes);
+    $("#goalIdForTaskAdd").val(goalId);
+    $("#goalDesForTaskAdd").val(goalDes);
+    $("#parentAdd").val(parentId);
+    if(parentId==-1){
+        $("#parent_task").hide();
+    }
+}
+
+/**
+ * 保存任务
+ */
+function saveTask(){
+    var data={};
+    data.goalId=$("#goalIdForTaskAdd").val();
+    data.des=$("#taskDesForTaskAdd").val();
+    data.responsePerson=$("#responsePersonAdd").val();
+    data.plan=$("#planAdd").val();
+    data.implementation=$("#implementationAdd").val();
+    data.confirmer=$("#confirmerAdd").val();
+    data.parent=$("#parentAdd").val();
+    $.ajax({
+        type: "post",
+        url: "/wbs/task/saveTask",
+        data: data,
+        dataType: "json",
+        success: function (result) {
+            if (result.success) {
+                console.log("任务保存成功！");
+                openItem();
+                $('#taskAddDialog').modal('hide');
             }
         }
     });

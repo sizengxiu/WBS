@@ -1,5 +1,7 @@
 package com.sfyyzs.model;
 
+import java.util.Date;
+
 /**
  * @user szx
  * @date 2020/10/18 16:14
@@ -14,6 +16,7 @@ public class Task {
     private String confirmer;
     private Integer state;
     private Integer goalId;
+    private Date time;
 
     public Integer getId() {
         return id;
@@ -89,5 +92,13 @@ public class Task {
 
     public void setConfirmer(String confirmer) {
         this.confirmer = confirmer;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 }
