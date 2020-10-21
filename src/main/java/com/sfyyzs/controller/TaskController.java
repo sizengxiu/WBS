@@ -70,7 +70,7 @@ public class TaskController {
      */
     @RequestMapping("getTaskTreeListByItemId")
     public Result  getTaskTreeListByItemId(@RequestParam("itemId") int itemId){
-        List<TaskTree> list = taskServiceI.getTaskTreeListByItemId(itemId);
+        List<Task> list = taskServiceI.getTaskTreeListByItemId(itemId);
         return Result.getSuccessResult(list);
     }
 

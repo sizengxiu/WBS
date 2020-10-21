@@ -2,6 +2,7 @@ package com.sfyyzs.mapper;
 
 import com.sfyyzs.model.Task;
 import com.sfyyzs.model.TaskTree;
+import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
  * @user szx
  * @date 2020/10/18 16:16
  */
+@CacheNamespace
 public interface TaskMapper {
 
     /**
@@ -35,7 +37,7 @@ public interface TaskMapper {
      * @auther: szx
      * @date: 2020/10/18 16:20
      */
-    List<TaskTree> getTaskTreeListByItemId(@Param("itemId") int itemId);
+    List<Task> getTaskTreeListByGoalId(@Param("goalId") int goalId);
     /**
      * 获取子任务
      * @param:

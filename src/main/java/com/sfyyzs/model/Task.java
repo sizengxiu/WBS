@@ -18,6 +18,7 @@ public class Task {
     private Integer state;
     private Integer goalId;
     private Date time;
+    private String type;
 
     private List<Task> children;
 
@@ -108,5 +109,13 @@ public class Task {
 
     public void setChildren(List<Task> children) {
         this.children = children;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -34,7 +34,7 @@ public interface TaskServiceI {
      * @auther: szx
      * @date: 2020/10/18 16:20
      */
-    List<TaskTree> getTaskTreeListByItemId( int itemId);
+    List<Task> getTaskTreeListByItemId( int itemId);
     /**
      * 任务保存
      * @param:

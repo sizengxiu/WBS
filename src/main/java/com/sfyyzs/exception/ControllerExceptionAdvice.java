@@ -20,7 +20,8 @@ public class ControllerExceptionAdvice {
         result.setCode(500);
         result.setMessage("系统异常！");
         result.setSuccess(false);
-        log.error("全局异常捕获：{}",e.getMessage(),e.getStackTrace());
+        log.error("全局异常捕获：{}",e.getMessage());
+        log.error("异常栈：{}",e.getStackTrace());
         return result;
     }
 }
