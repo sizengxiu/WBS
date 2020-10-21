@@ -7,10 +7,12 @@
     <link  rel="stylesheet" type="text/css" href="/wbs/wbs/wbs.css">
     <link rel="stylesheet" type="text/css" href="/wbs/jquery-easyui-1.9.8/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="/wbs/jquery-easyui-1.9.8/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="/wbs/layer/theme/default/layer.css">
     <script src="/wbs/node_modules/jquery/dist/jquery.js"></script>
     <script src="/wbs/bootstrap/js/bootstrap.js"></script>
     <script src="/wbs/gojs/go.js"></script>
     <script src="/wbs/vue/vue.min.js"></script>
+    <script src="/wbs/layer/layer.js"></script>
     <script type="text/javascript" src="/wbs/jquery-easyui-1.9.8/jquery.easyui.min.js"></script>
     <script src="/wbs/wbs/wbs.js"></script>
 
@@ -25,7 +27,7 @@
 <body>
 
 
-<h1 class="text-center">任务分解工具</h1>
+<h1 class="text-center">基于目标的任务管理</h1>
 
 <div class="container1" style="margin:15px;">
     <div class="row" >
@@ -38,6 +40,8 @@
                 <div  class="col-lg-6">
                     <button type="button" class="btn btn-primary" onclick="getItemList()">搜索</button>
                     <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#itemAddDialog">新增</button>
+<!--                    <button type="button" class="btn btn-primary" onclick="getItemList()">编辑</button>
+                    <button type="button" class="btn btn-primary" onclick="getItemList()">删除</button>-->
                 </div>
             </div>
             <div class="row margin-top-5" style="overflow-y: auto">

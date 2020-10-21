@@ -52,4 +52,29 @@ public interface TaskMapper {
      * @date: 2020/10/18 17:54
      */
     void saveTask(Task task);
+
+    /**
+     * 根据任务Id列表获取子任务id列表
+     * @param list
+     * @return
+     */
+    List<Integer> getDirectSubTaskIdList(@Param("list") List<Integer> list);
+    /**
+     * 根据任务Id列表删除任务（逻辑删除）
+     * @param list
+     * @return
+     */
+    int deleteTasksByList(@Param("list") List<Integer> list);
+    /**
+     * 根据目标Id删除任务以及子任务（逻辑删除）
+     * @param goalId
+     * @return
+     */
+    int deleteTaskTreeByGoalId(@Param("goalId") int goalId);
+    /**
+     * 根据类别Id删除任务以及子任务（逻辑删除）
+     * @param itemId
+     * @return
+     */
+    int deleteTaskTreeByItemId(@Param("itemId") int itemId);
 }

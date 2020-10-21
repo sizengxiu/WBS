@@ -29,4 +29,11 @@ public interface GoalMapper {
      * @date: 2020/10/18 16:56
      */
     int saveGoal(Goal goal);
+
+    /**
+     * 根据目标id删除目标
+     * @param goalId
+     * @return
+     */
+    int deleteGoalByGoalId(@Param("goalId") int goalId);
 }

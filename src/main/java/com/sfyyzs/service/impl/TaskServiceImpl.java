@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -39,4 +40,31 @@ public class TaskServiceImpl implements TaskServiceI {
         task.setState(1);
         taskMapper.saveTask(task);
     }
+
+    @Override
+    public int deleteTaskTreeByTaskId(int taskId) {
+        List<Integer> list=new LinkedList<>();
+        list.add(taskId);
+        taskMapper.deleteTasksByList(list);
+        int count=1;
+        List<Integer> directSubTaskIdList = taskMapper.getDirectSubTaskIdList(list);
+        while(directSubTaskIdList!=null && directSubTaskIdList.size()!=0 ){
+            taskMapper.deleteTasksByList(directSubTaskIdList);
+            count+=directSubTaskIdList.size();
+            directSubTaskIdList = taskMapper.getDirectSubTaskIdList(directSubTaskIdList);
+        }
+        return count;
+    }
+
+    @Override
+    public int deleteTaskTreeByGoalId(int goalId) {
+        return taskMapper.deleteTaskTreeByGoalId(goalId);
+    }
+
+    @Override
+    public int deleteTaskTreeByItemId(int itemId) {
+        return taskMapper.deleteTaskTreeByItemId(itemId);
+    }
+
+
 }

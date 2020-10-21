@@ -46,6 +46,17 @@ public class GoalController {
         return Result.getSuccessResult(id);
     }
 
+    /**
+     * 根据目标id删除目标及下的任务
+     * @param goalId
+     * @return 删除的目标和任务总数
+     */
+    @RequestMapping("deleteGoalByGoalId")
+    public Result deleteGoalByGoalId(@RequestParam("goalId")int goalId){
+        int count = goalService.deleteGoalByGoalId(goalId);
+        return Result.getSuccessResult(count);
+    }
+
 
 
 

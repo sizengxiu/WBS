@@ -17,14 +17,25 @@
         select id,des,time,item_id
         from wbs_goal
         <where>
+            state=1
             <if test="des !=null and des !='' ">
-                des like concat('%',concat(#{des},'%'))
+                and des like concat('%',concat(#{des},'%'))
             </if>
             <if test="itemId !=null">
-                item_id=#{itemId}
+                and item_id=#{itemId}
             </if>
         </where>
         order by time desc
     </select>
-
+    <update id="deleteGoalByGoalId" parameterType="int">
+        update wbs_goal
+        set state=0
+        where id=#{goalId}
+    </update>
+    <update id="deleteGoalsByItemId" parameterType="int">
+        update wbs_goal
+        set state=0
+        where state=1
+        and item_id=#{itemId}
+    </update>
 </mapper>

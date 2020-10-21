@@ -48,32 +48,63 @@
     <select id="getTaskTreeByItemId" parameterType="int" resultMap="taskTree">
         select id,des,-2 as parent,id as goal_id
         from wbs_goal
-        where item_id=#{itemId}
+        where item_id=#{itemId} and state=1
          union all
         select id,des,parent,goal_id
         from wbs_task
-        where goal_id in ( select id from wbs_goal where item_id=#{itemId})
+        where goal_id in ( select id from wbs_goal where item_id=#{itemId}) and state=1
         order by id asc
     </select>
     <select id="getTaskListByItemId" parameterType="int" resultMap="task">
         select id,des,parent,goal_id,response_person,implementation,plan,confirmer
         from wbs_task
         where goal_id in ( select id from wbs_goal where item_id=#{itemId})
+        and state=1
         order by parent asc,id desc
     </select>
     <select id="getTaskTreeListByItemId" parameterType="int" resultMap="BaseTreeResultMap">
         select id,des,parent,goal_id,response_person,implementation,plan,confirmer
         from wbs_task
         where goal_id in ( select id from wbs_goal where item_id=#{itemId})
-        and parent=-1
+        and parent=-1 and state=1
         order by id asc
     </select>
     <select id="getSubTree" parameterType="int" resultMap="BaseTreeResultMap">
         select id,des,parent,goal_id,response_person,implementation,plan,confirmer
         from wbs_task
-        where parent= #{id}
+        where parent= #{id} and state=1
         order by id asc
     </select>
+
+    <select id="getDirectSubTaskIdList" parameterType="list" resultType="int">
+        select id
+        from wbs_task
+        where state=1 and parent in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <update id="deleteTasksByList" parameterType="list">
+        update wbs_task
+        set state=0
+        where state=1 and  id in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <update id="deleteTaskTreeByGoalId" parameterType="int">
+        update wbs_task
+        set state=0
+        where state=1
+        and goal_id=#{goalId}
+    </update>
+    <update id="deleteTaskTreeByItemId" parameterType="int">
+        update wbs_task
+        set state=0
+        where state=1
+        and goal_id in (select id from wbs_goal where item_id=#{itemId})
+    </update>
 
 
 

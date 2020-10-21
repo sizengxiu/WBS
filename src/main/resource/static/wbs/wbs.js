@@ -152,7 +152,7 @@ function saveGoal(){
         success: function (result) {
             if (result.success) {
                 console.log("目标保存成功！");
-                openItem();
+                openItem(globalItemData.selectedItemId,globalItemData.selectedItemDes);
                 $('#goalAddDialog').modal('hide');
             }
         }
@@ -268,7 +268,7 @@ function initTaskDataGrid(){
 }
 
 function reloadGoalList(){
-    $('#goalDg').datagrid('reload',{itemId:globalItemData.selectedItemId,test:1});
+    $('#goalDg').datagrid('reload',{itemId:globalItemData.selectedItemId});
 }
 function reloadTaskList(){
     $('#taskDg').treegrid('reload',{itemId:globalItemData.selectedItemId});
@@ -277,12 +277,12 @@ function reloadTaskList(){
 
 function goalOpFormat(rowIndex, rowData){
     return '<a href="#" onclick="editGoal()">编辑</a>'
-            +' <a href="#" onclick="deletGoal()">删除</a>'
+            +' <a href="#" onclick="deletGoal(\'' +rowData.id+'\')">删除</a>'
             +' <a href="javascript:;" onclick="openTaskAddDialog(\'' +rowData.id+'\',\''+rowData.des+'\',-1,\'\')">分解任务</a>';
 }
 function taskOpFormat(rowIndex, rowData){
     return '<a href="#" onclick="editGoal()">编辑</a>'
-            +' <a href="#" onclick="deletGoal()">删除</a>'
+            +' <a href="#" onclick="deletTask(\'' +rowData.id+'\')">删除</a>'
             +' <a href="javascript:;" onclick="openTaskAddDialog(\'' +rowData.goalId+'\',\''+rowData.des+'\',\''+rowData.id+'\',\''+rowData.des+'\')">分解任务</a>';
 }
 
@@ -329,5 +329,57 @@ function saveTask(){
                 $('#taskAddDialog').modal('hide');
             }
         }
+    });
+}
+
+/**
+ * 删除任务
+ * @param taskId
+ */
+function deletTask(taskId){
+
+    layer.confirm('删除该任务会连同其子任务一起删除，确定要删除吗?', {icon: 3, title:'删除确认'}, function(index){
+        //do something
+        $.ajax({
+            type: "post",
+            url: "/wbs/task/deleteTaskTreeByTaskId",
+            data: {taskId:taskId},
+            dataType: "json",
+            success: function (result) {
+                if (result.success) {
+                    layer.msg("共计删除了"+result.data+"个任务！");
+                    openItem(globalItemData.selectedItemId,globalItemData.selectedItemDes);
+                }else{
+                    layer.alert("任务删除失败！");
+                }
+            }
+        });
+        layer.close(index);
+    });
+}
+
+/**
+ * 删除目标及其子任务
+ * @param goalId
+ */
+function deletGoal(goalId){
+
+    layer.confirm('删除该目标会连同其子任务一起删除，确定要删除吗?', {icon: 3, title:'删除确认'}, function(index){
+        //do something
+        $.ajax({
+            type: "post",
+            url: "/wbs/task/deleteGoalByGoalId",
+            data: {goalId:goalId},
+            dataType: "json",
+            success: function (result) {
+                if (result.success) {
+                    layer.msg("删除了1个目标和"+(result.data-1)+"个任务！");
+                    openItem(globalItemData.selectedItemId,globalItemData.selectedItemDes);
+                }else{
+                    layer.alert("任务删除失败！");
+                }
+            }
+        });
+        layer.close(index);
     });
 }

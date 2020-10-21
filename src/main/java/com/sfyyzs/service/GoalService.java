@@ -25,4 +25,10 @@ public interface GoalService {
      * @date: 2020/10/18 16:59
      */
     List<Goal> getGoals(String des,int itemId);
+    /**
+     * 根据目标id删除目标
+     * @param goalId
+     * @return
+     */
+    int deleteGoalByGoalId(int goalId);
 }

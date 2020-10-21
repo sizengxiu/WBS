@@ -74,4 +74,15 @@ public class TaskController {
         return Result.getSuccessResult(list);
     }
 
+    /**
+     * 根据 任务Id删除任务以及子任务
+     * @param taskId
+     * @return
+     */
+    @RequestMapping("deleteTaskTreeByTaskId")
+    public Result deleteTaskTreeByTaskId(@RequestParam("taskId")int taskId){
+        int num=taskServiceI.deleteTaskTreeByTaskId(taskId);
+        return Result.getSuccessResult(num);
+    }
+
 }
