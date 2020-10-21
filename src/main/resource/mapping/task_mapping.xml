@@ -29,6 +29,7 @@
         <result property="plan" column="plan" />
         <result property="confirmer" column="confirmer" />
         <result property="state" column="state" />
+        <result property="type" column="type" />
         <collection property="children" ofType="com.sfyyzs.model.Task" column="id" jdbcType="INTEGER"
                     select="getSubTree"/>
     </resultMap>
@@ -38,7 +39,7 @@
     <insert id="saveTask" keyColumn="id" keyProperty="id" parameterType="com.sfyyzs.model.Task" useGeneratedKeys="true">
         insert into wbs_task (des, parent, response_person,
                               `implementation`, `plan`, confirmer,
-                              `time`, goal_id, `state`
+                              add_date, goal_id, `state`
         )
         values (#{des,jdbcType=VARCHAR}, #{parent,jdbcType=INTEGER}, #{responsePerson,jdbcType=VARCHAR},
                 #{implementation,jdbcType=VARCHAR}, #{plan,jdbcType=VARCHAR}, #{confirmer,jdbcType=VARCHAR},
@@ -62,15 +63,15 @@
         and state=1
         order by parent asc,id desc
     </select>
-    <select id="getTaskTreeListByItemId" parameterType="int" resultMap="BaseTreeResultMap">
-        select id,des,parent,goal_id,response_person,implementation,plan,confirmer
+    <select id="getTaskTreeListByGoalId" parameterType="int" resultMap="BaseTreeResultMap">
+        select id,des,parent,goal_id,response_person,implementation,plan,confirmer, "任务" as type
         from wbs_task
-        where goal_id in ( select id from wbs_goal where item_id=#{itemId})
+        where goal_id =#{goalId}
         and parent=-1 and state=1
         order by id asc
     </select>
     <select id="getSubTree" parameterType="int" resultMap="BaseTreeResultMap">
-        select id,des,parent,goal_id,response_person,implementation,plan,confirmer
+        select id,des,parent,goal_id,response_person,implementation,plan,confirmer,"任务" as type
         from wbs_task
         where parent= #{id} and state=1
         order by id asc

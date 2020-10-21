@@ -78,7 +78,12 @@
   <select id="getItems" parameterType="string" resultMap="BaseResultMap">
     select id,des,data_time
     from wbs_item
-    where des like concat('%',concat(#{des},'%'))
+    <where>
+      state=1
+      <if test="des !=null and des != ''">
+       and des like concat('%',concat(#{des},'%'))
+      </if>
+    </where>
     order by data_time desc
   </select>
 </mapper>

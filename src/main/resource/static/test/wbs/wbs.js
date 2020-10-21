@@ -3,10 +3,12 @@ var globalURL = "localhost:8080";
 var $go = go.GraphObject.make;
 var myDiagram;
 
-
+//所选的类别信息
+var selectedItemId=null;
+var selectedItemDes=null;
 
 var globalVm;
-var globalItemData={};
+var globalItemData={selectedItemId:selectedItemId,selectedItemDes:selectedItemDes,hello:"sadf"};
 
 
 
@@ -21,7 +23,7 @@ $(document).ready(function () {
         $this.css('display', 'block');
         $modal_dialog.css({'margin-top': Math.max(0, ($(window).height() - $modal_dialog.height()) / 2) });
     });
-    initItemSeleteControl();
+
     //$("#itemAddDialog").modal({backdrop: false, keyboard: false});
     initTree();
 
@@ -33,30 +35,13 @@ $(document).ready(function () {
         document.getElementById("itemAddForm").reset();
     });
 
-    // getItemList();
+    getItemList();
 
     initGoalDataGrid(1);
     initTaskDataGrid();
 
 
 });
-
-/**
- * 初始化目标下拉款框
- */
-function initItemSeleteControl(){
-    $('#item_select').combobox({
-        url:'/wbs/task/getItems',
-        valueField:'id',
-        textField:'des',
-        loadFilter: function(result){
-            return result.data;
-        },
-        onSelect:function(record){
-            openItem(record.id,record.des);
-        }
-    });
-}
 
 
 function initTree(){
@@ -72,7 +57,7 @@ function initTree(){
         $go(go.Node, "Horizontal",
             {background: "#44CCFF"},
 
-            $go(go.TextBlock, "请选择要查看的类别",
+            $go(go.TextBlock, "请选择左侧要查看的类别",
                 {margin: 10, stroke: "white", font: "bold 20px sans-serif", isMultiline: true,wrap: go.TextBlock.WrapFit,width:250},
                 new go.Binding("text", "des"),
                 new go.Binding("editable", "editable"),
@@ -257,15 +242,14 @@ function initTaskDataGrid(){
         singleSelect:true,
         checkOnSelect:true,
         idField:'id',
-        treeField:'type',
+        treeField:'des',
         url:'/wbs/task/getTaskTreeListByItemId',
         queryParams:{itemId:-1},
         columns:[[
             {field:'id',title:'id',hidden:true},
             {field:'goalId',title:'goalId',hidden:true},
             {field:'parent',title:'parentId',hidden:true},
-            {field:'type',title:'分类'},
-            {field:'des',title:'描述'},
+            {field:'des',title:'任务描述'},
             {field:'responsePerson',title:'责任人'},
             {field:'plan',title:'实施计划'},
             {field:'implementation',title:'执行人'},
