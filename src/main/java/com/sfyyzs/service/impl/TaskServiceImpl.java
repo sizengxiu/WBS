@@ -10,6 +10,7 @@ import com.sfyyzs.model.TaskTree;
 import com.sfyyzs.service.TaskServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -20,6 +21,7 @@ import java.util.List;
  * @date 2020/10/18 16:22
  */
 @Service
+@Transactional
 public class TaskServiceImpl implements TaskServiceI {
 
     @Autowired
@@ -42,10 +44,14 @@ public class TaskServiceImpl implements TaskServiceI {
         List<Task> list=new LinkedList<>();
         //1、类别转任务结构
         Item item = itemMapper.selectByPrimaryKey(itemId);
+        if(item==null){
+            return list;
+        }
         Task itemTask=new Task();
         itemTask.setId(item.getId());
         itemTask.setDes(item.getDes());
-        itemTask.setType("类别");
+        itemTask.setTypeName("类别");
+        itemTask.setType(0);
         list.add(itemTask);
         //2、目标转任务结构，目标挂在类别下
         List<Goal> goalList= goalMapper.getGoals(null, itemId);
@@ -56,7 +62,8 @@ public class TaskServiceImpl implements TaskServiceI {
         for(Goal goal:goalList){
             Task goalTask=new Task();
             goalTask.setId(goal.getId());
-            goalTask.setType("目标");
+            goalTask.setTypeName("目标");
+            goalTask.setType(1);
             goalTask.setDes(goal.getDes());
             goalTaskList.add(goalTask);
             //3、任务挂在目标下
@@ -69,7 +76,7 @@ public class TaskServiceImpl implements TaskServiceI {
 
     @Override
     public void saveTask(Task task) {
-        task.setTime(new Date());
+        task.setAddDate(new Date());
         task.setState(1);
         taskMapper.saveTask(task);
     }

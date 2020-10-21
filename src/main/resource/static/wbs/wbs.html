@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -29,24 +29,15 @@
 
 <h1 class="text-center">基于目标的任务管理</h1>
 
-<div class="container1" style="margin:15px;">
-    <div class="row" >
-        <div  class="col-lg-6">
+<div class="all_size_container" style="margin:15px;">
+    <div class="row all_size_container" >
+        <div  class="col-lg-6 " style="height:90%" >
             <input id="item_select">
-            <div id="myDiagramDiv" style="width:600px; height:450px; background-color: #DAE4E4;"></div>
+            <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#itemAddDialog">新增</button>
+            <div id="myDiagramDiv" style="width:98%; height:90%;background-color: #DAE4E4;"></div>
         </div>
         <div  class="col-lg-6">
-            <div id="goalInfo" class="row"  style="display: none">
-                <div class="row"  >
-                    <div  class="col-lg-6">目标列表</div>
-                    <div  class="col-lg-6">
-                        <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#goalAddDialog">新增目标</button>
-                    </div>
-                </div>
-                <div class="row" >
-                    <table id="goalDg"></table>
-                </div>
-            </div>
+
             <p></p>
             <div id="taskInfo" class="row"  style="display: none">
                 <div class="row" >

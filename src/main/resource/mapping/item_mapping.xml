@@ -86,4 +86,10 @@
     </where>
     order by data_time desc
   </select>
+
+  <update id="deleteItemByItemId" parameterType="int" >
+    update wbs_item
+    set state=0
+    where id=#{itemId}
+  </update>
 </mapper>

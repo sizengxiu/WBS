@@ -30,4 +30,13 @@ public interface ItemMapper {
      * @date: 2020/10/18 16:20
      */
     List<Item> getItems(@Param("des")String des);
+
+    /**
+     * 根据类别id删除类别
+     * @param:
+     * @return:
+     * @auther: szx
+     * @date: 2020/10/21 21:50
+     */
+    int deleteItemByItemId(@Param("itemId") int itemId);
 }

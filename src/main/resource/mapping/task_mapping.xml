@@ -18,6 +18,8 @@
         <result property="plan" column="plan" />
         <result property="confirmer" column="confirmer" />
         <result property="state" column="state" />
+        <result property="addDate" column="add_date" />
+        <result property="updateDate" column="update_date" />
     </resultMap>
     <resultMap id="BaseTreeResultMap" type="com.sfyyzs.model.Task">
         <id property="id" column="id" />
@@ -30,6 +32,7 @@
         <result property="confirmer" column="confirmer" />
         <result property="state" column="state" />
         <result property="type" column="type" />
+        <result property="typeName" column="type_name" />
         <collection property="children" ofType="com.sfyyzs.model.Task" column="id" jdbcType="INTEGER"
                     select="getSubTree"/>
     </resultMap>
@@ -43,7 +46,7 @@
         )
         values (#{des,jdbcType=VARCHAR}, #{parent,jdbcType=INTEGER}, #{responsePerson,jdbcType=VARCHAR},
                 #{implementation,jdbcType=VARCHAR}, #{plan,jdbcType=VARCHAR}, #{confirmer,jdbcType=VARCHAR},
-                #{time,jdbcType=TIMESTAMP}, #{goalId,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}
+                #{addDate,jdbcType=TIMESTAMP}, #{goalId,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}
                )
     </insert>
     <select id="getTaskTreeByItemId" parameterType="int" resultMap="taskTree">
@@ -64,14 +67,14 @@
         order by parent asc,id desc
     </select>
     <select id="getTaskTreeListByGoalId" parameterType="int" resultMap="BaseTreeResultMap">
-        select id,des,parent,goal_id,response_person,implementation,plan,confirmer, "任务" as type
+        select id,des,parent,goal_id,response_person,implementation,plan,confirmer, 2 as type,"任务" as type_name
         from wbs_task
         where goal_id =#{goalId}
         and parent=-1 and state=1
         order by id asc
     </select>
     <select id="getSubTree" parameterType="int" resultMap="BaseTreeResultMap">
-        select id,des,parent,goal_id,response_person,implementation,plan,confirmer,"任务" as type
+        select id,des,parent,goal_id,response_person,implementation,plan,confirmer,2 as type,"任务" as type_name
         from wbs_task
         where parent= #{id} and state=1
         order by id asc

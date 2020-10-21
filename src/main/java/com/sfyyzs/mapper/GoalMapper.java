@@ -36,4 +36,13 @@ public interface GoalMapper {
      * @return
      */
     int deleteGoalByGoalId(@Param("goalId") int goalId);
+    /**
+     * 根据类别id删除目标列表
+     * @param:
+     * @return:
+     * @auther: szx
+     * @date: 2020/10/21 21:52
+     */
+    int deleteGoalsByItemId(@Param("itemId") int itemId);
+
 }

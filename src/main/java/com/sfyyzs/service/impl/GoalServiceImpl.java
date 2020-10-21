@@ -6,6 +6,7 @@ import com.sfyyzs.service.GoalService;
 import com.sfyyzs.service.TaskServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
  * @date 2020/10/18 16:57
  */
 @Service
+@Transactional
 public class GoalServiceImpl implements GoalService {
 
     @Autowired
@@ -43,6 +45,11 @@ public class GoalServiceImpl implements GoalService {
         count+=taskServiceI.deleteTaskTreeByGoalId(goalId);
         goalMapper.deleteGoalByGoalId(goalId);
         return count;
+    }
+
+    @Override
+    public int deleteGoalsByItemId(int itemId) {
+        return goalMapper.deleteGoalsByItemId(itemId);
     }
 
 

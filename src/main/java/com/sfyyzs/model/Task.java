@@ -17,8 +17,10 @@ public class Task {
     private String confirmer;
     private Integer state;
     private Integer goalId;
-    private Date time;
-    private String type;
+    private Date addDate;
+    private Date updateDate;
+    private int type;
+    private String typeName;
 
     private List<Task> children;
 
@@ -95,12 +97,20 @@ public class Task {
         this.confirmer = confirmer;
     }
 
-    public Date getTime() {
-        return time;
+    public Date getAddDate() {
+        return addDate;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setAddDate(Date addDate) {
+        this.addDate = addDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 
     public List<Task> getChildren() {
@@ -111,11 +121,19 @@ public class Task {
         this.children = children;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 }

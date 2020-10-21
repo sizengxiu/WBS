@@ -35,7 +35,6 @@
     <update id="deleteGoalsByItemId" parameterType="int">
         update wbs_goal
         set state=0
-        where state=1
-        and item_id=#{itemId}
+        where  state=1 and item_id=#{itemId}
     </update>
 </mapper>

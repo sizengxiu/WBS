@@ -6,8 +6,10 @@ import com.sfyyzs.model.Goal;
 import com.sfyyzs.model.Item;
 import com.sfyyzs.service.GoalService;
 import com.sfyyzs.service.ItemService;
+import com.sfyyzs.service.TaskServiceI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -17,11 +19,19 @@ import java.util.List;
  * @date 2020/10/18 16:57
  */
 @Service
+@Transactional
 public class ItemServiceImpl implements ItemService {
 
 
     @Autowired
     private ItemMapper itemMapper;
+
+    @Autowired
+    private TaskServiceI taskServiceI;
+
+    @Autowired
+    private GoalService goalService;
+
 
     @Override
     public int saveItem(String des) {
@@ -37,4 +47,15 @@ public class ItemServiceImpl implements ItemService {
     public List<Item> getItems(String des) {
         return itemMapper.getItems(des);
     }
+
+    @Override
+    public int deleteItemByItemId(int itemId) {
+        int count=1;
+        count+=taskServiceI.deleteTaskTreeByItemId(itemId);
+        count+=goalService.deleteGoalsByItemId(itemId);
+        itemMapper.deleteItemByItemId(itemId);
+        return count;
+    }
+
+
 }

@@ -1,6 +1,7 @@
 package com.sfyyzs.service;
 
 import com.sfyyzs.model.Goal;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -31,4 +32,12 @@ public interface GoalService {
      * @return
      */
     int deleteGoalByGoalId(int goalId);
+    /**
+     * 根据类别id删除目标列表
+     * @param:
+     * @return:
+     * @auther: szx
+     * @date: 2020/10/21 21:52
+     */
+    int deleteGoalsByItemId(int itemId);
 }

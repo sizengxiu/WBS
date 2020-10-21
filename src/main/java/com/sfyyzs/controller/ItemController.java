@@ -45,6 +45,18 @@ public class ItemController {
         int id=itemService.saveItem(des);
         return Result.getSuccessResult(id);
     }
+    /**
+     * 根据类别id删除类别激起目标和任务
+     * @param:
+     * @return:
+     * @auther: szx
+     * @date: 2020/10/21 21:57
+     */
+    @RequestMapping("deleteItemByItemId")
+    public Result deleteItemByItemId(@RequestParam("itemId") int itemId){
+        int id=itemService.deleteItemByItemId(itemId);
+        return Result.getSuccessResult(id);
+    }
 
 
 

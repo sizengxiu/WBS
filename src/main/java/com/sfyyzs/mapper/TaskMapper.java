@@ -4,6 +4,7 @@ import com.sfyyzs.model.Task;
 import com.sfyyzs.model.TaskTree;
 import org.apache.ibatis.annotations.CacheNamespace;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -12,6 +13,7 @@ import java.util.List;
  * @date 2020/10/18 16:16
  */
 @CacheNamespace
+@Repository
 public interface TaskMapper {
 
     /**
