@@ -81,4 +81,6 @@ public interface TaskMapper {
      * @return
      */
     int deleteTaskTreeByItemId(@Param("itemId") int itemId);
+
+    int updateByPrimaryKeySelective(Task task);
 }

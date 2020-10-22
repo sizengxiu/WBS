@@ -30,7 +30,10 @@ $(document).ready(function () {
         document.getElementById("itemAddForm").reset();
     });
     $('#goalAddDialog').on('hide.bs.modal', function () {
-        document.getElementById("itemAddForm").reset();
+        document.getElementById("goalAddForm").reset();
+    });
+    $('#taskAddDialog').on('hide.bs.modal', function () {
+        document.getElementById("taskAddForm").reset();
     });
 
 
@@ -131,46 +134,8 @@ function getItemList() {
     });
 }
 
-/**
- * 保存类别
- */
-function saveItem(){
-    var des=$("#itemDes").val();
-    $.ajax({
-        type: "post",
-        url: "/wbs/task/saveItem",
-        data: {"des": des},
-        dataType: "json",
-        success: function (result) {
-            if (result.success) {
-                console.log("保存成功！");
-                $('#item_select').combobox("reload");
-                $('#itemAddDialog').modal('hide');
-            }
-        }
-    });
-}
-/**
- * 目标类别
- */
-function saveGoal(){
-    var goal={itemId:globalItemData.selectedItemId};
-    goal.des=$("#goalDesForAdd").val();
-    goal.itemId=globalItemData.selectedItemId;
-    $.ajax({
-        type: "post",
-        url: "/wbs/task/saveGoal",
-        data: goal,
-        dataType: "json",
-        success: function (result) {
-            if (result.success) {
-                console.log("目标保存成功！");
-                openItem(globalItemData.selectedItemId,globalItemData.selectedItemDes);
-                $('#goalAddDialog').modal('hide');
-            }
-        }
-    });
-}
+
+
 
 /**
  * 打开所选类别
@@ -238,8 +203,8 @@ function initTaskDataGrid(){
             {field:'id',title:'id',hidden:true},
             {field:'goalId',title:'goalId',hidden:true},
             {field:'parent',title:'parentId',hidden:true},
-            {field:'typeName',title:'分类',width:100},
-            {field:'des',title:'描述',width:100},
+            {field:'typeName',title:'分类',width:150},
+            {field:'des',title:'描述',width:200},
             {field:'responsePerson',title:'责任人',width:100},
             {field:'plan',title:'实施计划',width:100},
             {field:'implementation',title:'执行人',width:100},
@@ -265,29 +230,49 @@ function reloadTaskList(){
  * @returns {string}
  */
 function taskOpFormat(rowIndex, rowData){
+    //type=0 类别，1为目标，2为任务
+    var data = JSON.stringify(rowData);
     if(rowData.type==1){
-        return '<a href="#" onclick="editGoal()">编辑</a>'
-            +' <a href="#" onclick="deletGoal(\'' +rowData.id+'\')">删除</a>'
-            +' <a href="javascript:;" onclick="openTaskAddDialog(\'' +rowData.id+'\',\''+rowData.des+'\',-1,\'\')">分解任务</a>';
+        return "<a href='#' onclick='openEditGoalDialog("+data+")'>编辑</a>"
+            +" <a href='#' onclick='deletGoal(\"" +rowData.id+"\")'>删除</a>"
+            +" <a href='javascript:;' onclick='openTaskAddDialog(\"" +rowData.id+"\",\""+rowData.des+"\",-1,\"\")'>分解任务</a>";
     }else if(rowData.type==2){
-        return '<a href="#" onclick="editGoal()">编辑</a>'
-            +' <a href="#" onclick="deletTask(\'' +rowData.id+'\')">删除</a>'
-            +' <a href="javascript:;" onclick="openTaskAddDialog(\'' +rowData.goalId+'\',\''+rowData.des+'\',\''+rowData.id+'\',\''+rowData.des+'\')">分解任务</a>';
+        return "<a href='#' onclick='openEditTaskDialog("+data+")'>编辑</a>"
+            +" <a href='#' onclick='deletTask(\"" +rowData.id+"\")'>删除</a>"
+            +" <a href='javascript:;' onclick='openTaskAddDialog(\"" +rowData.goalId+"\",\""+rowData.des+"\",\""+rowData.id+"\",\""+rowData.des+"\")'>分解任务</a>";
     }
-    return '<a href="#" onclick="editGoal()">编辑</a>'
-        +' <a href="#" onclick="deletItem(\'' +rowData.id+'\')">删除</a>'
-        +' <a href="javascript:;" onclick="openGoalAddDialog(\'' +rowData.goalId+'\',\''+rowData.des+'\',\''+rowData.id+'\',\''+rowData.des+'\')">新增目标</a>';
+    return "<a href='#' onclick='openEditItemDialog("+data+")'>编辑</a>"
+        +" <a href='#' onclick='deletItem(\"" +rowData.id+"\")'>删除</a>"
+        +" <a href='javascript:;' onclick='openGoalAddDialog(\"" +rowData.goalId+"\",\""+rowData.des+"\",\""+rowData.id+"\",\""+rowData.des+"\")'>新增目标</a>";
 
 
 }
 
 
 /**
+ * 打开类别编辑对话框
+ */
+function openEditItemDialog(data){
+    $('#itemUpdateDialog').modal('show');
+    $('#itemIdUpdate').val(data.id);
+    $('#itemDesUpdate').val(data.des);
+}
+/**
  * 打开新增目标对话框
  */
 function openGoalAddDialog(){
     $('#goalAddDialog').modal('show');
 }
+
+/**
+ * 打开目标编辑对话框
+ */
+function openEditGoalDialog(data){
+    $('#goalUpdateDialog').modal('show');
+    $('#goalIdUpdate').val(data.id);
+    $('#goalDesForUpdate').val(data.des);
+}
+
 /**
  * 打开添加任务对话框，并赋值
  * @param goalId
@@ -307,6 +292,21 @@ function openTaskAddDialog(goalId,goalDes,parentId,parentDes){
     }
 }
 
+/**
+ * 打开任务编辑对话框
+ * @param rowData
+ */
+function openEditTaskDialog(data){
+    $('#taskUpdateDialog').modal('show');
+    $("#goalIdForTaskUpdate").val(data.goalId);
+    $("#taskDesForTaskUpdate").val(data.des);
+    $("#responsePersonUpdate").val(data.responsePerson);
+    $("#planUpdate").val(data.plan);
+    $("#implementationUpdate").val(data.implementation);
+    $("#confirmerUpdate").val(data.confirmer);
+    $("#parentUpdate").val(data.parent);
+    $("#taskIdUpdate").val(data.id);
+}
 /**
  * 保存任务
  */
@@ -329,10 +329,41 @@ function saveTask(){
                 console.log("任务保存成功！");
                 openItem(globalItemData.selectedItemId,globalItemData.selectedItemDes);
                 $('#taskAddDialog').modal('hide');
+            }else{
+                layer.alert(result.message,{icon: 2});
             }
         }
     });
 }
+
+/**
+ * 编辑任务
+ */
+function editTask(){
+    var data={};
+    data.des=$("#taskDesForTaskUpdate").val();
+    data.responsePerson=$("#responsePersonUpdate").val();
+    data.plan=$("#planUpdate").val();
+    data.implementation=$("#implementationUpdate").val();
+    data.confirmer=$("#confirmerUpdate").val();
+    data.id=$("#taskIdUpdate").val();
+    $.ajax({
+        type: "post",
+        url: "/wbs/task/updateTask",
+        data: data,
+        dataType: "json",
+        success: function (result) {
+            if (result.success) {
+                console.log("任务保存成功！");
+                openItem(globalItemData.selectedItemId,globalItemData.selectedItemDes);
+                $('#taskUpdateDialog').modal('hide');
+            }else{
+                layer.alert(result.message,{icon: 2});
+            }
+        }
+    });
+}
+
 
 /**
  * 删除任务
@@ -359,7 +390,57 @@ function deletTask(taskId){
         layer.close(index);
     });
 }
+/**
+ * 保存目标
+ */
+function saveGoal(){
+    var goal={itemId:globalItemData.selectedItemId};
+    goal.des=$("#goalDesForAdd").val();
+    goal.itemId=globalItemData.selectedItemId;
+    if(goal.des==''){
+        layer.alert("目标描述不能为空！",{icon: 2});
+        return;
+    }
 
+    $.ajax({
+        type: "post",
+        url: "/wbs/task/saveGoal",
+        data: goal,
+        dataType: "json",
+        success: function (result) {
+            if (result.success) {
+                console.log("目标保存成功！");
+                openItem(globalItemData.selectedItemId,globalItemData.selectedItemDes);
+                $('#goalAddDialog').modal('hide');
+            }
+        }
+    });
+}
+
+/**
+ * 编辑目标
+ */
+function editGoal(){
+    var goal={};
+    goal.des=$("#goalDesForUpdate").val();
+    goal.id=$("#goalIdUpdate").val();
+
+    $.ajax({
+        type: "post",
+        url: "/wbs/task/updateGoal",
+        data: goal,
+        dataType: "json",
+        success: function (result) {
+            if (result.success) {
+                openItem(globalItemData.selectedItemId,globalItemData.selectedItemDes);
+                layer.msg("目标更新成功！");
+                $('#goalUpdateDialog').modal('hide');
+            }else{
+                layer.alert(result.message,{icon: 2});
+            }
+        }
+    });
+}
 /**
  * 删除目标及其子任务
  * @param goalId
@@ -387,6 +468,60 @@ function deletGoal(goalId){
 }
 
 /**
+ * 保存类别
+ */
+function editItem(){
+    var item={};
+    item.id=$('#itemIdUpdate').val();
+    item.des=$('#itemDesUpdate').val();
+    if(item.des==''){
+        layer.alert("类别描述不能为空！",{icon: 2});
+        return;
+    }
+    $.ajax({
+        type: "post",
+        url: "/wbs/task/updateItem",
+        data: item,
+        dataType: "json",
+        success: function (result) {
+            if (result.success) {
+                $('#item_select').combobox("reload");
+                $('#itemUpdateDialog').modal('hide');
+                layer.msg("类别修改成功！");
+            }else{
+                layer.alert(result.message);
+            }
+        }
+    });
+}
+
+/**
+ * 保存类别
+ */
+function saveItem(){
+    var des=$("#itemDesUpdate").val();
+    if(des==''){
+        layer.alert("类别描述不能为空！",{icon: 2});
+        return;
+    }
+    $.ajax({
+        type: "post",
+        url: "/wbs/task/saveItem",
+        data: {"des": des},
+        dataType: "json",
+        success: function (result) {
+            if (result.success) {
+                console.log("保存成功！");
+                $('#item_select').combobox("reload");
+                $('#itemAddDialog').modal('hide');
+            }
+        }
+    });
+}
+
+
+
+/**
  * 删除目标及其子任务
  * @param goalId
  */
@@ -400,10 +535,10 @@ function deletItem(itemId){
             dataType: "json",
             success: function (result) {
                 if (result.success) {
-                    layer.msg("删除了1个目标和"+(result.data-1)+"个任务！");
+                    layer.msg("类别删除成功！");
                     location.reload();
                 }else{
-                    layer.alert("任务删除失败！");
+                    layer.alert("类别删除失败！");
                 }
             }
         });

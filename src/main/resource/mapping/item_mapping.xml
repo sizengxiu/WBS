@@ -60,9 +60,7 @@
       <if test="dataTime != null">
         data_time = #{dataTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="state != null">
-        `state` = #{state,jdbcType=INTEGER},
-      </if>
+
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>

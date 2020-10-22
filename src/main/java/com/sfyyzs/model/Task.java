@@ -1,5 +1,6 @@
 package com.sfyyzs.model;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 import java.util.List;
 
@@ -9,11 +10,16 @@ import java.util.List;
  */
 public class Task {
     private Integer id;
+    @NotEmpty(message="任务描述不能为空！")
     private String des;
     private Integer parent;
+    @NotEmpty(message="责任人不能为空！")
     private String responsePerson;
+    @NotEmpty(message="执行人不能为空！")
     private String implementation;
+    @NotEmpty(message="实施计划不能为空！")
     private String plan;
+    @NotEmpty(message="确认人不能为空！")
     private String confirmer;
     private Integer state;
     private Integer goalId;

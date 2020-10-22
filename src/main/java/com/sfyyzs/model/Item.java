@@ -1,5 +1,6 @@
 package com.sfyyzs.model;
 
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -10,6 +11,7 @@ import java.util.Date;
 public class Item implements Serializable {
     private Integer id;
 
+    @NotEmpty(message="目标描述不能为空！")
     private String des;
 
     private Date dataTime;

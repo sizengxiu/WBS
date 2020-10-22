@@ -57,5 +57,10 @@ public class ItemServiceImpl implements ItemService {
         return count;
     }
 
+    @Override
+    public int updateItem(Item item) {
+        return itemMapper.updateByPrimaryKeySelective(item);
+    }
+
 
 }

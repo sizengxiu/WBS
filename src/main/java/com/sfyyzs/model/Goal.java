@@ -2,6 +2,7 @@ package com.sfyyzs.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 /**
@@ -10,10 +11,12 @@ import java.util.Date;
  */
 public class Goal {
     private Integer id;
+    @NotEmpty(message="目标描述不可为空！")
     private String des;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date time;
     private Integer itemId;
+    private int state;
 
     public Integer getId() {
         return id;
@@ -45,5 +48,13 @@ public class Goal {
 
     public void setItemId(Integer itemId) {
         this.itemId = itemId;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 }

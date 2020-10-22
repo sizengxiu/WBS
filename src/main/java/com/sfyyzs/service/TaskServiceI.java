@@ -62,4 +62,11 @@ public interface TaskServiceI {
      * @return
      */
     int deleteTaskTreeByItemId(int itemId);
+
+    /**
+     * 修改任务属性
+     * @param task
+     * @return
+     */
+    int updateTask(Task task);
 }

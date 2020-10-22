@@ -106,5 +106,11 @@ public class TaskServiceImpl implements TaskServiceI {
         return taskMapper.deleteTaskTreeByItemId(itemId);
     }
 
+    @Override
+    public int updateTask(Task task) {
+        task.setUpdateDate(new Date());
+        return taskMapper.updateByPrimaryKeySelective(task);
+    }
+
 
 }

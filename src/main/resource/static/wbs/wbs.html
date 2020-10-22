@@ -31,12 +31,12 @@
 
 <div class="all_size_container" style="margin:15px;">
     <div class="row all_size_container" >
-        <div  class="col-lg-6 " style="height:90%" >
+        <div  class="col-lg-5 " style="height:90%" >
             <input id="item_select">
             <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#itemAddDialog">新增</button>
             <div id="myDiagramDiv" style="width:98%; height:90%;background-color: #DAE4E4;"></div>
         </div>
-        <div  class="col-lg-6">
+        <div  class="col-lg-7">
 
             <p></p>
             <div id="taskInfo" class="row"  style="display: none">
@@ -84,6 +84,37 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal -->
     </div>
+<!--编辑类型-->
+
+<div class="modal fade" id="itemUpdateDialog" tabindex="-1" role="dialog" aria-labelledby="myItemModalLabelForUpdate" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myItemModalLabelForUpdate">
+                    编辑类型
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form  id="itemUpdateForm" class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <input type="text" hidden="true" id="itemIdUpdate" >
+                        <label for="itemDesUpdate" class="col-lg-2 control-label">类型：</label>
+                        <div class="col-lg-10">
+                            <input type="text" class="form-control" id="itemDesUpdate" placeholder="请输入类型">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="editItem()">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 
 
 
@@ -122,6 +153,37 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->
 </div>
+
+<!--编辑目标-->
+<div class="modal fade" id="goalUpdateDialog" tabindex="-1" role="dialog" aria-labelledby="myGoalModalLabelUpdate" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myGoalModalLabelUpdate">
+                    编辑目标
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form  id="goalUpdateForm" class="form-horizontal" role="form">
+                    <input type="text" hidden="true" id="goalIdUpdate" >
+                    <div class="form-group">
+                        <label  class="col-lg-2 control-label">目标描述：</label>
+                        <div class="col-lg-10">
+                            <textarea id="goalDesForUpdate" class="form-control" rows="5"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="editGoal()">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
 <!--新增任务-->
 <div class="modal fade" id="taskAddDialog" tabindex="-1" role="dialog" aria-labelledby="myTaskModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -141,19 +203,19 @@
                     <div class="form-group">
                         <label  class="col-lg-3 control-label">所属类型：</label>
                         <div class="col-lg-8">
-                            <input type="text"  id="itemDesIdForTaskAdd" >
+                            <input type="text"  id="itemDesIdForTaskAdd" disabled="disabled">
                         </div>
                     </div>
                     <div class="form-group">
                     <label  class="col-lg-3 control-label">所属目标：</label>
                         <div class="col-lg-8">
-                             <textarea id="goalDesForTaskAdd" class="form-control" rows="2"></textarea>
+                             <textarea id="goalDesForTaskAdd" class="form-control" rows="2" disabled="disabled"></textarea>
                         </div>
                     </div>
                     <div class="form-group" id="parent_task">
                     <label  class="col-lg-3 control-label">上级任务：</label>
                         <div class="col-lg-8">
-                             <textarea id="parentDesAdd" class="form-control" rows="2"></textarea>
+                             <textarea id="parentDesAdd" class="form-control" rows="2" disabled="disabled"></textarea>
                         </div>
                     </div>
                     <div class="form-group">
@@ -191,6 +253,65 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 <button type="button" class="btn btn-primary" onclick="saveTask()">保存</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<!--编辑任务-->
+<div class="modal fade" id="taskUpdateDialog" tabindex="-1" role="dialog" aria-labelledby="myTaskModalLabelForUpdate" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myTaskModalLabelForUpdate">
+                    编辑任务
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form  id="taskUpdateForm" class="form-horizontal" role="form">
+                    <input type="text" hidden="true" id="goalIdForTaskUpdate" >
+                    <input type="text" hidden="true" id="parentUpdate" >
+                    <input type="text" hidden="true" id="taskIdUpdate" >
+
+
+                    <div class="form-group">
+                        <label  class="col-lg-3 control-label">任务描述：</label>
+                        <div class="col-lg-8">
+                            <textarea id="taskDesForTaskUpdate" class="form-control" rows="2"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-lg-3 control-label">责任人：</label>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" id="responsePersonUpdate" placeholder="请输入责任人">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-lg-3 control-label">实施计划：</label>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" id="planUpdate" placeholder="请输入实施计划">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-lg-3 control-label">执行人：</label>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" id="implementationUpdate" placeholder="请输入执行人">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-lg-3 control-label">确认人：</label>
+                        <div class="col-lg-8">
+                            <input type="text" class="form-control" id="confirmerUpdate" placeholder="请输入确认人">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="editTask()">保存</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal -->

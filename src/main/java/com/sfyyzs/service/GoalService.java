@@ -40,4 +40,11 @@ public interface GoalService {
      * @date: 2020/10/21 21:52
      */
     int deleteGoalsByItemId(int itemId);
+
+    /**
+     * 修改目标信息
+     * @param goal
+     * @return
+     */
+    int updateGoal(Goal goal);
 }

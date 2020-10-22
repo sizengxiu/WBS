@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class TaskController {
      * @date: 2020/10/18 17:55
      */
     @RequestMapping("saveTask")
-    public Result  saveTask( Task task){
+    public Result  saveTask( @Valid Task task){
         taskServiceI.saveTask(task);
         return Result.getSuccessResult(task.getId());
     }
@@ -82,6 +83,17 @@ public class TaskController {
     @RequestMapping("deleteTaskTreeByTaskId")
     public Result deleteTaskTreeByTaskId(@RequestParam("taskId")int taskId){
         int num=taskServiceI.deleteTaskTreeByTaskId(taskId);
+        return Result.getSuccessResult(num);
+    }
+
+    /**
+     * 修改任务
+     * @param task
+     * @return
+     */
+    @RequestMapping("updateTask")
+    public Result updateTask(@Valid Task task){
+        int num=taskServiceI.updateTask(task);
         return Result.getSuccessResult(num);
     }
 

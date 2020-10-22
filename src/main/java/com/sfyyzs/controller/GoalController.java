@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -55,6 +56,17 @@ public class GoalController {
     public Result deleteGoalByGoalId(@RequestParam("goalId")int goalId){
         int count = goalService.deleteGoalByGoalId(goalId);
         return Result.getSuccessResult(count);
+    }
+
+    /**
+     * 修改任务
+     * @param
+     * @return
+     */
+    @RequestMapping("updateGoal")
+    public Result updateGoal(@Valid Goal goal){
+        int num=goalService.updateGoal(goal);
+        return Result.getSuccessResult(num);
     }
 
 

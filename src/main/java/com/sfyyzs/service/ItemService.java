@@ -35,4 +35,11 @@ public interface ItemService {
      * @date: 2020/10/21 21:50
      */
     int deleteItemByItemId( int itemId);
+
+    /**
+     * 修改类别信息
+     * @param item
+     * @return
+     */
+    int updateItem(Item item);
 }

@@ -52,5 +52,10 @@ public class GoalServiceImpl implements GoalService {
         return goalMapper.deleteGoalsByItemId(itemId);
     }
 
+    @Override
+    public int updateGoal(Goal goal) {
+        return goalMapper.updateByPrimaryKeySelective(goal);
+    }
+
 
 }

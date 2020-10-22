@@ -45,4 +45,6 @@ public interface GoalMapper {
      */
     int deleteGoalsByItemId(@Param("itemId") int itemId);
 
+    int updateByPrimaryKeySelective(Goal goal);
+
 }

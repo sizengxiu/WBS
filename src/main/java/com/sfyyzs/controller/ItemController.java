@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 /**
@@ -41,7 +43,7 @@ public class ItemController {
      * @date: 2020/10/18 17:02
      */
     @RequestMapping("saveItem")
-    public Result saveItem(@RequestParam("des") String des){
+    public Result saveItem(@Valid @NotEmpty(message="类别描述不能为空！") @RequestParam("des") String des){
         int id=itemService.saveItem(des);
         return Result.getSuccessResult(id);
     }
@@ -57,6 +59,14 @@ public class ItemController {
         int id=itemService.deleteItemByItemId(itemId);
         return Result.getSuccessResult(id);
     }
+
+    @RequestMapping("updateItem")
+    public Result updateItem(@Valid Item item){
+        int id=itemService.updateItem(item);
+        return Result.getSuccessResult(id);
+    }
+
+
 
 
 
