@@ -204,11 +204,11 @@ function initTaskDataGrid(){
             {field:'goalId',title:'goalId',hidden:true},
             {field:'parent',title:'parentId',hidden:true},
             {field:'typeName',title:'分类',width:150},
-            {field:'des',title:'描述',width:200},
-            {field:'responsePerson',title:'责任人',width:100},
-            {field:'plan',title:'实施计划',width:100},
-            {field:'implementation',title:'执行人',width:100},
-            {field:'confirmer',title:'确认人',width:100},
+            {field:'des',title:'描述',width:300},
+            {field:'responsePerson',title:'责任人',width:60},
+            {field:'plan',title:'实施计划',width:80},
+            {field:'implementation',title:'执行人',width:60},
+            {field:'confirmer',title:'确认人',width:60},
             {field:'op',title:'操作',width:160,formatter:taskOpFormat}
         ]],
         loadFilter: function(result){
@@ -499,7 +499,7 @@ function editItem(){
  * 保存类别
  */
 function saveItem(){
-    var des=$("#itemDesUpdate").val();
+    var des=$("#itemDes").val();
     if(des==''){
         layer.alert("类别描述不能为空！",{icon: 2});
         return;

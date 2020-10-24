@@ -24,13 +24,42 @@
             {background: "#44CCFF"},
             { selectionChanged: ChangedSelection},
             $go(go.TextBlock, "Default Text",
-                {margin: 1, stroke: "white", font: "bold 16px sans-serif", isMultiline: true,width:100,wrap: go.TextBlock.WrapFit},
+                {margin: 1, stroke: "white", font: "bold 16px sans-serif", isMultiline: true},
                 new go.Binding("text", "name"),
                 new go.Binding("editable", "editable")
-            )
-         
- 
-
+            ),
+            $go("Button", {
+                    alignment: go.Spot.Right,
+                    alignmentFocus: go.Spot.Left,
+                    click: function (e, obj) {
+                        console.log(e);
+                        console.log(obj);
+                        alert("点击了添加阿牛");
+                    }
+                }),
+            $go(go.TextBlock, " 分解任务+ ",  // the Button content
+                {font: "bold 8pt sans-serif"}),
+            $go(go.Panel,
+                {alignment: go.Spot.Right},
+                $go("TreeExpanderButton") // 设置收缩按钮
+            ),
+            $go(go.Panel,
+            $go(go.TextBlock,"rdgsdgf+",
+                {alignment: go.Spot.TopRight  ,
+                    click: function (e, obj) {
+                        console.log(e);
+                        console.log(obj);
+                        alert("点击了添加阿牛");
+                    }}
+            ),
+            $go(go.TextBlock,"aasdfasdfsdf+",
+                {alignment: go.Spot.BottomRight  ,
+                    click: function (e, obj) {
+                        console.log(e);
+                        console.log(obj);
+                        alert("点击了添加阿牛");
+                    }}
+            ))
         );
     var model = $go(go.TreeModel);
     model.nodeDataArray =
@@ -40,7 +69,7 @@
             {editable: true, key: "2", parent: "1", name: "Demeter"},
             {editable: true, key: "3", parent: "1", name: "Copricat"},
             {editable: true, key: "4", parent: "2", name: "Jellylorum"},
-            {editable: true, key: "5", parent: "2", name: "大文本测试大文本测试，大文本测试，大文本测试"},
+            {editable: true, key: "5", parent: "2", name: "Alonzo"},
             {editable: true, key: "6", parent: "3", name: "Munkustrap"}
         ];
     myDiagram.model = model;
