@@ -1,5 +1,6 @@
 package com.sfyyzs.controller;
 
+import com.sfyyzs.model.GoPanelTree;
 import com.sfyyzs.model.Result;
 import com.sfyyzs.model.Task;
 import com.sfyyzs.model.TaskTree;
@@ -34,7 +35,7 @@ public class TaskController {
      */
     @RequestMapping("getTaskTreeByItemId")
     public Result  getTaskTreeByItemId(@RequestParam("itemId") int itemId ){
-        List<TaskTree> list=taskServiceI.getTaskTreeByItemId(itemId);
+        List<GoPanelTree> list=taskServiceI.getTaskTreeByItemId(itemId);
         return Result.getSuccessResult(list);
     }
     /**
@@ -59,7 +60,7 @@ public class TaskController {
      */
     @RequestMapping("getTaskListByItemId")
     public Result  getTaskListByItemId(@RequestParam("itemId") int itemId){
-        List<TaskTree> list = taskServiceI.getTaskListByItemId(itemId);
+        List<Task> list = taskServiceI.getTaskListByItemId(itemId);
         return Result.getSuccessResult(list);
     }
     /**

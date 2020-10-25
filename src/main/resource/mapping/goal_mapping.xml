@@ -5,14 +5,14 @@
     <resultMap id="goal" type="com.sfyyzs.model.Goal">
         <id property="id" column="id" />
         <result property="des" column="des" />
-        <result property="time" column="time" />
+        <result property="dataTime" column="data_time" />
         <result property="itemId" column="item_id" />
         <result property="state" column="state" />
     </resultMap>
 
     <insert id="saveGoal" parameterType="com.sfyyzs.model.Goal" keyProperty="id" useGeneratedKeys="true">
-        insert into wbs_goal(des,item_id,time,state)
-        values(#{des},#{itemId},#{time},1)
+        insert into wbs_goal(des,item_id,data_time,state)
+        values(#{des},#{itemId},#{dataTime},1)
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.sfyyzs.mapper.GoalMapper">
         update wbs_goal
@@ -20,8 +20,8 @@
             <if test="des != null">
                 des = #{des,jdbcType=VARCHAR},
             </if>
-            <if test="time != null">
-                `time` = #{time,jdbcType=TIMESTAMP},
+            <if test="dateDate != null">
+                `data_time` = #{dataTime,jdbcType=TIMESTAMP},
             </if>
 
             <if test="itemId != null">
@@ -31,7 +31,7 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
     <select id="getGoals" parameterType="map" resultMap="goal">
-        select id,des,time,item_id
+        select id,des,data_time,item_id
         from wbs_goal
         <where>
             state=1
@@ -42,7 +42,7 @@
                 and item_id=#{itemId}
             </if>
         </where>
-        order by time desc
+        order by item_id  asc, id asc
     </select>
     <update id="deleteGoalByGoalId" parameterType="int">
         update wbs_goal
@@ -54,4 +54,5 @@
         set state=0
         where  state=1 and item_id=#{itemId}
     </update>
+
 </mapper>

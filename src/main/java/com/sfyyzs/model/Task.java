@@ -1,5 +1,8 @@
 package com.sfyyzs.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 import java.util.List;
@@ -13,13 +16,9 @@ public class Task {
     @NotEmpty(message="任务描述不能为空！")
     private String des;
     private Integer parent;
-    @NotEmpty(message="责任人不能为空！")
     private String responsePerson;
-    @NotEmpty(message="执行人不能为空！")
     private String implementation;
-    @NotEmpty(message="实施计划不能为空！")
     private String plan;
-    @NotEmpty(message="确认人不能为空！")
     private String confirmer;
     private Integer state;
     private Integer goalId;
@@ -27,6 +26,20 @@ public class Task {
     private Date updateDate;
     private int type;
     private String typeName;
+    private String remark;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern="yyyy-MM-dd ",timezone = "GMT+8")
+    private Date implementationDate;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date confirmDate;
+    private Integer taskState;
+    private String taskStateName;
+
+    private Integer itemId;
+
+
+
 
     private List<Task> children;
 
@@ -38,6 +51,13 @@ public class Task {
         this.id = id;
     }
 
+    public String getDes() {
+        return des;
+    }
+
+    public void setDes(String des) {
+        this.des = des;
+    }
 
     public Integer getParent() {
         return parent;
@@ -45,30 +65,6 @@ public class Task {
 
     public void setParent(Integer parent) {
         this.parent = parent;
-    }
-
-    public Integer getState() {
-        return state;
-    }
-
-    public void setState(Integer state) {
-        this.state = state;
-    }
-
-    public Integer getGoalId() {
-        return goalId;
-    }
-
-    public void setGoalId(Integer goalId) {
-        this.goalId = goalId;
-    }
-
-    public String getDes() {
-        return des;
-    }
-
-    public void setDes(String des) {
-        this.des = des;
     }
 
     public String getResponsePerson() {
@@ -103,6 +99,22 @@ public class Task {
         this.confirmer = confirmer;
     }
 
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    public Integer getGoalId() {
+        return goalId;
+    }
+
+    public void setGoalId(Integer goalId) {
+        this.goalId = goalId;
+    }
+
     public Date getAddDate() {
         return addDate;
     }
@@ -119,14 +131,6 @@ public class Task {
         this.updateDate = updateDate;
     }
 
-    public List<Task> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<Task> children) {
-        this.children = children;
-    }
-
     public int getType() {
         return type;
     }
@@ -141,5 +145,61 @@ public class Task {
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public Date getImplementationDate() {
+        return implementationDate;
+    }
+
+    public void setImplementationDate(Date implementationDate) {
+        this.implementationDate = implementationDate;
+    }
+
+    public Date getConfirmDate() {
+        return confirmDate;
+    }
+
+    public void setConfirmDate(Date confirmDate) {
+        this.confirmDate = confirmDate;
+    }
+
+    public Integer getTaskState() {
+        return taskState;
+    }
+
+    public void setTaskState(Integer taskState) {
+        this.taskState = taskState;
+    }
+
+    public Integer getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Integer itemId) {
+        this.itemId = itemId;
+    }
+
+    public List<Task> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<Task> children) {
+        this.children = children;
+    }
+
+    public String getTaskStateName() {
+        return taskStateName;
+    }
+
+    public void setTaskStateName(String taskStateName) {
+        this.taskStateName = taskStateName;
     }
 }

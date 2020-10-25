@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -32,7 +33,13 @@ public class ItemController {
      */
     @RequestMapping("getItems")
     public Result getItems(String des){
-        List<Item> list = itemService.getItems(des);
+        List<Item> list = new LinkedList<>();
+        Item item=new Item();
+        item.setId(-1);
+        item.setDes("全部类型");
+        list.add(item);
+        list.addAll(itemService.getItems(des));
+
         return Result.getSuccessResult(list);
     }
     /**

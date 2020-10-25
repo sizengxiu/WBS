@@ -8,12 +8,15 @@
     <link rel="stylesheet" type="text/css" href="/wbs/jquery-easyui-1.9.8/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="/wbs/jquery-easyui-1.9.8/themes/icon.css">
     <link rel="stylesheet" type="text/css" href="/wbs/layer/theme/default/layer.css">
+    <link rel="stylesheet" type="text/css" href="/wbs/bootstrap/css/bootstrap-datetimepicker.min.css">
     <script src="/wbs/node_modules/jquery/dist/jquery.js"></script>
     <script src="/wbs/bootstrap/js/bootstrap.js"></script>
     <script src="/wbs/gojs/go.js"></script>
     <script src="/wbs/vue/vue.min.js"></script>
     <script src="/wbs/layer/layer.js"></script>
     <script type="text/javascript" src="/wbs/jquery-easyui-1.9.8/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/wbs/bootstrap/js/bootstrap-datetimepicker.js"></script>
+    <script type="text/javascript" src="/wbs/bootstrap/js/locales/bootstrap-datetimepicker.fr.js"></script>
     <script src="/wbs/wbs/wbs.js"></script>
 
 <!--
@@ -27,30 +30,36 @@
 <body>
 
 
-<h1 class="text-center">基于目标的任务管理</h1>
+<h1 class="text-center">基于目标的工作地图</h1>
 
-<div class="all_size_container" style="margin:15px;">
+<div class="all_size_container" style="margin:15px;height:500px;">
     <div class="row all_size_container" >
-        <div  class="col-lg-5 " style="height:90%" >
+        <div  class="col-lg-1 "></div>
+        <div  class="col-lg-10 " style="height:90%" >
             <input id="item_select">
             <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#itemAddDialog">新增</button>
-            <div id="myDiagramDiv" style="width:98%; height:90%;background-color: #DAE4E4;"></div>
+            <div id="myDiagramDiv" style="width:98%; height:100%;background-color: #FFFFFF;"></div>
         </div>
-        <div  class="col-lg-7">
+        <div  class="col-lg-1 "></div>
+    </div>
+</div>
 
-            <p></p>
-            <div id="taskInfo" class="row"  style="display: none">
-                <div class="row" >
-                    <div  class="col-lg-6">任务列表</div>
-                    <div  class="col-lg-6">
-                    </div>
+<div class="row">
+    <div  class="col-lg-1 "></div>
+    <div  class="col-lg-10">
+        <p></p>
+        <div id="taskInfo" class="row"  >
+            <div class="row" >
+                <div  class="col-lg-6">任务列表</div>
+                <div  class="col-lg-6">
                 </div>
-                <div class="row" >
-                    <table id="taskDg"></table>
-                </div>
+            </div>
+            <div class="row" >
+                <table id="taskDg"></table>
             </div>
         </div>
     </div>
+    <div  class="col-lg-1 "></div>
 </div>
 
 
@@ -132,10 +141,11 @@
             </div>
             <div class="modal-body">
                 <form  id="goalAddForm" class="form-horizontal" role="form">
+                    <input type="text" hidden="true" id="itemIdForGoalAdd" >
                     <div class="form-group">
                         <label  class="col-lg-3 control-label">所属类型：</label>
                         <div class="col-lg-8">
-                            <p class="form-control-static">{{selectedItemDes}}</p>
+                            <p class="form-control-static"><input type="text" disabled="disabled" id="itemDesForGoalAdd" ></p>
                         </div>
                     </div>
                     <div class="form-group">
@@ -200,12 +210,7 @@
                 <form  id="taskAddForm" class="form-horizontal" role="form">
                     <input type="text" hidden="true" id="goalIdForTaskAdd" >
                     <input type="text" hidden="true" id="parentAdd" >
-                    <div class="form-group">
-                        <label  class="col-lg-3 control-label">所属类型：</label>
-                        <div class="col-lg-8">
-                            <input type="text"  id="itemDesIdForTaskAdd" disabled="disabled">
-                        </div>
-                    </div>
+
                     <div class="form-group">
                     <label  class="col-lg-3 control-label">所属目标：</label>
                         <div class="col-lg-8">
@@ -243,9 +248,38 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label  class="col-lg-3 control-label">执行时间：</label>
+                        <div class="col-lg-8">
+                            <div class="easyui-datebox"  id="implementationDateAdd" data-options="formatter:dateFormatter"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label  class="col-lg-3 control-label">确认人：</label>
                         <div class="col-lg-8">
-                            <input type="text" class="form-control" id="confirmerAdd" placeholder="请输入确认人">
+                            <input type="text" class="form-control" id="confirmAdd" placeholder="请输入确认人">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-lg-3 control-label">确认时间：</label>
+                        <div class="col-lg-8">
+                            <div class="easyui-datebox"  id="confirmDateAdd" data-options="formatter:dateFormatter"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-lg-3 control-label">任务状态：</label>
+                        <div class="col-lg-8">
+                            <select id="taskStateAdd" class="easyui-combobox form-control" >
+                                <option value="2">进行中</option>
+                                <option value="3">已完成</option>
+                                <option value="4">已终止</option>
+                                <option value="5">延期</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-lg-3 control-label">备注：</label>
+                        <div class="col-lg-8">
+                            <textarea id="remarkAdd" class="form-control" rows="3"></textarea>
                         </div>
                     </div>
                 </form>
@@ -302,9 +336,38 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label  class="col-lg-3 control-label">执行时间：</label>
+                        <div class="col-lg-8">
+                            <div class="easyui-datebox"  id="implementationDateUpdate" data-options="formatter:dateFormatter,parser:dateParser"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <label  class="col-lg-3 control-label">确认人：</label>
                         <div class="col-lg-8">
                             <input type="text" class="form-control" id="confirmerUpdate" placeholder="请输入确认人">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-lg-3 control-label">确认时间：</label>
+                        <div class="col-lg-8">
+                            <div class="easyui-datebox"  id="confirmDateUpdate" data-options="formatter:dateFormatter,parser:dateParser"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-lg-3 control-label">任务状态：</label>
+                        <div class="col-lg-8">
+                            <select id="taskStateUpdate" class="easyui-combobox form-control" >
+                                <option value="2">进行中</option>
+                                <option value="3">已完成</option>
+                                <option value="4">已终止</option>
+                                <option value="5">延期</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-lg-3 control-label">备注：</label>
+                        <div class="col-lg-8">
+                            <textarea id="remarkUpdate" class="form-control" rows="3"></textarea>
                         </div>
                     </div>
                 </form>

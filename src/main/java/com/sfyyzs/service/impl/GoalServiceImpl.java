@@ -28,7 +28,7 @@ public class GoalServiceImpl implements GoalService {
     public int saveGoal(String des,int itemId) {
         Goal goal=new Goal();
         goal.setDes(des);
-        goal.setTime(new Date());
+        goal.setDataTime(new Date());
         goal.setItemId(itemId);
         goalMapper.saveGoal(goal);
         return goal.getId();

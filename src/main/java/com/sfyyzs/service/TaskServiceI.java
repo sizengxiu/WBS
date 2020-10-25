@@ -1,5 +1,6 @@
 package com.sfyyzs.service;
 
+import com.sfyyzs.model.GoPanelTree;
 import com.sfyyzs.model.Task;
 import com.sfyyzs.model.TaskTree;
 import org.apache.ibatis.annotations.Param;
@@ -18,7 +19,7 @@ public interface TaskServiceI {
      * @auther: szx
      * @date: 2020/10/18 16:20
      */
-    List<TaskTree> getTaskTreeByItemId( int id);
+    List<GoPanelTree> getTaskTreeByItemId(Integer id);
     /**
      * 根据目标Id获取对应的任务树
      * @param:
@@ -26,7 +27,7 @@ public interface TaskServiceI {
      * @auther: szx
      * @date: 2020/10/18 16:20
      */
-    List<TaskTree> getTaskListByItemId(int itemId);
+    List<Task> getTaskListByItemId(int itemId);
     /**
      * 根据目标Id获取对应的任务树
      * @param:
@@ -34,7 +35,7 @@ public interface TaskServiceI {
      * @auther: szx
      * @date: 2020/10/18 16:20
      */
-    List<Task> getTaskTreeListByItemId( int itemId);
+    List<Task> getTaskTreeListByItemId( Integer itemId);
     /**
      * 任务保存
      * @param:

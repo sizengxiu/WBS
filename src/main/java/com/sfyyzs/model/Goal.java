@@ -14,7 +14,7 @@ public class Goal {
     @NotEmpty(message="目标描述不可为空！")
     private String des;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
-    private Date time;
+    private Date dataTime;
     private Integer itemId;
     private int state;
 
@@ -34,12 +34,12 @@ public class Goal {
         this.des = des;
     }
 
-    public Date getTime() {
-        return time;
+    public Date getDataTime() {
+        return dataTime;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setDataTime(Date dataTime) {
+        this.dataTime = dataTime;
     }
 
     public Integer getItemId() {

@@ -20,6 +20,11 @@
         <result property="state" column="state" />
         <result property="addDate" column="add_date" />
         <result property="updateDate" column="update_date" />
+        <result property="typeName" column="type_name" />
+        <result column="confirm_date" jdbcType="TIMESTAMP" property="confirmDate" />
+        <result column="implementation_date" jdbcType="TIMESTAMP" property="implementationDate" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="task_state" jdbcType="INTEGER" property="taskState" />
     </resultMap>
     <resultMap id="BaseTreeResultMap" type="com.sfyyzs.model.Task">
         <id property="id" column="id" />
@@ -31,8 +36,11 @@
         <result property="plan" column="plan" />
         <result property="confirmer" column="confirmer" />
         <result property="state" column="state" />
-        <result property="type" column="type" />
         <result property="typeName" column="type_name" />
+        <result column="confirm_date" jdbcType="TIMESTAMP" property="confirmDate" />
+        <result column="implementation_date" jdbcType="TIMESTAMP" property="implementationDate" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="task_state" jdbcType="INTEGER" property="taskState" />
         <collection property="children" ofType="com.sfyyzs.model.Task" column="id" jdbcType="INTEGER"
                     select="getSubTree"/>
     </resultMap>
@@ -42,11 +50,15 @@
     <insert id="saveTask" keyColumn="id" keyProperty="id" parameterType="com.sfyyzs.model.Task" useGeneratedKeys="true">
         insert into wbs_task (des, parent, response_person,
                               `implementation`, `plan`, confirmer,
-                              add_date, goal_id, `state`
+                              add_date, `state`,
+                              update_date, goal_id, confirm_date,
+                              implementation_date, remark, task_state
         )
         values (#{des,jdbcType=VARCHAR}, #{parent,jdbcType=INTEGER}, #{responsePerson,jdbcType=VARCHAR},
                 #{implementation,jdbcType=VARCHAR}, #{plan,jdbcType=VARCHAR}, #{confirmer,jdbcType=VARCHAR},
-                #{addDate,jdbcType=TIMESTAMP}, #{goalId,jdbcType=INTEGER}, #{state,jdbcType=INTEGER}
+                #{addDate,jdbcType=TIMESTAMP}, #{state,jdbcType=INTEGER},
+                #{updateDate,jdbcType=TIMESTAMP}, #{goalId,jdbcType=INTEGER}, #{confirmDate,jdbcType=TIMESTAMP},
+                #{implementationDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, #{taskState,jdbcType=INTEGER}
                )
     </insert>
     <select id="getTaskTreeByItemId" parameterType="int" resultMap="taskTree">
@@ -60,10 +72,15 @@
         order by id asc
     </select>
     <select id="getTaskListByItemId" parameterType="int" resultMap="task">
-        select id,des,parent,goal_id,response_person,implementation,plan,confirmer
+        select  id, des, parent, response_person, implementation, plan, confirmer, add_date,
+                update_date, goal_id, confirm_date, implementation_date, remark,
+                task_state,2 as type, '任务' as type_name
         from wbs_task
-        where goal_id in ( select id from wbs_goal where item_id=#{itemId})
-        and state=1
+        where
+        state=1
+        <if test="itemId!=null">
+           and  goal_id in ( select id from wbs_goal where item_id=#{itemId} and state=1)
+        </if>
         order by parent asc,id desc
     </select>
     <select id="getTaskTreeListByGoalId" parameterType="int" resultMap="BaseTreeResultMap">
@@ -134,17 +151,23 @@
             <if test="addDate != null">
                 add_date = #{addDate,jdbcType=TIMESTAMP},
             </if>
-            <if test="state != null">
-                `state` = #{state,jdbcType=INTEGER},
-            </if>
-            <if test="type != null">
-                `type` = #{type,jdbcType=INTEGER},
-            </if>
             <if test="updateDate != null">
                 update_date = #{updateDate,jdbcType=TIMESTAMP},
             </if>
             <if test="goalId != null">
                 goal_id = #{goalId,jdbcType=INTEGER},
+            </if>
+            <if test="confirmDate != null">
+                confirm_date = #{confirmDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="implementationDate != null">
+                implementation_date = #{implementationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="taskState != null">
+                task_state = #{taskState,jdbcType=INTEGER},
             </if>
         </set>
         where id = #{id,jdbcType=INTEGER}

@@ -6,7 +6,7 @@ var myDiagram;
 
 
 var globalVm;
-var globalItemData={selectedItemDes:'' };
+var globalItemData={selectedItemDes:'',selectedItemId:-1 };
 
 
 
@@ -38,7 +38,7 @@ $(document).ready(function () {
 
 
     initTaskDataGrid();
-
+    loadGoPanelTree();
 
 });
 
@@ -74,7 +74,7 @@ function initTree(){
             {background: "#44CCFF"},
 
             $go(go.TextBlock, "请选择要查看的类别",
-                {margin: 10, stroke: "white", font: "bold 20px sans-serif", isMultiline: true,wrap: go.TextBlock.WrapFit,width:250},
+                {margin: 10, stroke: "white", font: "bold 18px sans-serif", isMultiline: true,wrap: go.TextBlock.WrapFit,width:500},
                 new go.Binding("text", "des"),
                 new go.Binding("editable", "editable"),
                 new go.Binding("key", "id")
@@ -143,18 +143,20 @@ function getItemList() {
  * @param des
  */
 function openItem(id, des) {
-    $("#taskInfo").show();
-    $("#goalInfo").show();
+    // $("#taskInfo").show();
+    // $("#goalInfo").show();
 
     globalVm.data={};
     globalItemData.selectedItemId=id;
     globalItemData.selectedItemDes=des;
     globalVm.data=globalItemData;
-    initTaskDataGrid();
+    // initTaskDataGrid();
     reloadTaskList();
+    loadGoPanelTree();
 
+}
 
-
+function loadGoPanelTree(){
     $.ajax({
         type: "post",
         url: "/wbs/task/getTaskTreeByItemId",
@@ -162,22 +164,11 @@ function openItem(id, des) {
         dataType: "json",
         success: function (result) {
             if (result.success) {
-                console.info(result.data);
                 myDiagram.model.nodeDataArray=result.data;
                 var nodeDataArray=[];
-                var itemNode={editable: false, key: "-1",  des: globalItemData.selectedItemDes};
-                nodeDataArray.push(itemNode);
                 $.each(result.data, function (i, item) {
                     item.key=item.id;
-                    //最上层任务
-                    if(item.parent==-1){
-                        item.parent=item.goalId*(-1);
-                    }else if(item.parent==-2){//目标
-                        item.parent=-1;
-                        item.key=item.id*(-1);
-                    }
                     nodeDataArray.push(item);
-                    console.info(item);
                 });
                 myDiagram.model.nodeDataArray=nodeDataArray;
             }
@@ -203,12 +194,16 @@ function initTaskDataGrid(){
             {field:'id',title:'id',hidden:true},
             {field:'goalId',title:'goalId',hidden:true},
             {field:'parent',title:'parentId',hidden:true},
-            {field:'typeName',title:'分类',width:150},
+            {field:'typeName',title:'',width:150},
             {field:'des',title:'描述',width:300},
             {field:'responsePerson',title:'责任人',width:60},
             {field:'plan',title:'实施计划',width:80},
+            {field:'remark',title:'备注',width:80},
             {field:'implementation',title:'执行人',width:60},
+            {field:'implementationDate',title:'执行时间',width:60},
             {field:'confirmer',title:'确认人',width:60},
+            {field:'confirmDate',title:'确认时间',width:60},
+            {field:'taskStateName',title:'任务状态',width:60},
             {field:'op',title:'操作',width:160,formatter:taskOpFormat}
         ]],
         loadFilter: function(result){
@@ -235,7 +230,7 @@ function taskOpFormat(rowIndex, rowData){
     if(rowData.type==1){
         return "<a href='#' onclick='openEditGoalDialog("+data+")'>编辑</a>"
             +" <a href='#' onclick='deletGoal(\"" +rowData.id+"\")'>删除</a>"
-            +" <a href='javascript:;' onclick='openTaskAddDialog(\"" +rowData.id+"\",\""+rowData.des+"\",-1,\"\")'>分解任务</a>";
+            +" <a href='javascript:;' onclick='openTaskAddDialog(\"" +rowData.id+"\",\""+rowData.des+"\",-1,\"\")'>新增任务</a>";
     }else if(rowData.type==2){
         return "<a href='#' onclick='openEditTaskDialog("+data+")'>编辑</a>"
             +" <a href='#' onclick='deletTask(\"" +rowData.id+"\")'>删除</a>"
@@ -243,7 +238,7 @@ function taskOpFormat(rowIndex, rowData){
     }
     return "<a href='#' onclick='openEditItemDialog("+data+")'>编辑</a>"
         +" <a href='#' onclick='deletItem(\"" +rowData.id+"\")'>删除</a>"
-        +" <a href='javascript:;' onclick='openGoalAddDialog(\"" +rowData.goalId+"\",\""+rowData.des+"\",\""+rowData.id+"\",\""+rowData.des+"\")'>新增目标</a>";
+        +" <a href='javascript:;' onclick='openGoalAddDialog("+data+")'>新增目标</a>";
 
 
 }
@@ -260,7 +255,9 @@ function openEditItemDialog(data){
 /**
  * 打开新增目标对话框
  */
-function openGoalAddDialog(){
+function openGoalAddDialog(data){
+    $('#itemIdForGoalAdd').val(data.id);
+    $('#itemDesForGoalAdd').val(data.des);
     $('#goalAddDialog').modal('show');
 }
 
@@ -279,6 +276,9 @@ function openEditGoalDialog(data){
  * @param goalDes
  */
 function openTaskAddDialog(goalId,goalDes,parentId,parentDes){
+    $("#implementationDateAdd").combo("clear");
+    $("#confirmDateAdd").combo("clear");
+    $("#taskStateAdd").combobox("clear");
     $('#taskAddDialog').modal('show');
     $("#itemDesIdForTaskAdd").val(globalItemData.selectedItemDes);
     $("#goalIdForTaskAdd").val(goalId);
@@ -297,6 +297,9 @@ function openTaskAddDialog(goalId,goalDes,parentId,parentDes){
  * @param rowData
  */
 function openEditTaskDialog(data){
+    $("#implementationDateDialog").combo("clear");
+    $("#confirmDateDialog").combo("clear");
+    $("#taskStateDialog").combobox("clear");
     $('#taskUpdateDialog').modal('show');
     $("#goalIdForTaskUpdate").val(data.goalId);
     $("#taskDesForTaskUpdate").val(data.des);
@@ -306,6 +309,10 @@ function openEditTaskDialog(data){
     $("#confirmerUpdate").val(data.confirmer);
     $("#parentUpdate").val(data.parent);
     $("#taskIdUpdate").val(data.id);
+    $("#implementationDateUpdate").datebox('setValue',data.implementationDate);
+    $("#confirmDateUpdate").datebox('setValue',data.confirmDate);
+    $("#taskStateUpdate").combobox("setValue",data.taskState);
+    $("#remarkUpdate").val(data.remark);
 }
 /**
  * 保存任务
@@ -319,6 +326,10 @@ function saveTask(){
     data.implementation=$("#implementationAdd").val();
     data.confirmer=$("#confirmerAdd").val();
     data.parent=$("#parentAdd").val();
+    data.implementationDate=$("#implementationDateAdd").combo('getValue');
+    data.confirmDate=$("#confirmDateAdd").combo('getValue');
+    data.taskState=$("#taskStateAdd").combobox("getValue");
+    data.remark=$("#remarkAdd").val();
     $.ajax({
         type: "post",
         url: "/wbs/task/saveTask",
@@ -347,6 +358,10 @@ function editTask(){
     data.implementation=$("#implementationUpdate").val();
     data.confirmer=$("#confirmerUpdate").val();
     data.id=$("#taskIdUpdate").val();
+    data.implementationDate=$("#implementationDateUpdate").combo('getValue');
+    data.confirmDate=$("#confirmDateUpdate").combo('getValue');
+    data.taskState=$("#taskStateUpdate").combobox("getValue");
+    data.remark=$("#remarkUpdate").val();
     $.ajax({
         type: "post",
         url: "/wbs/task/updateTask",
@@ -396,7 +411,7 @@ function deletTask(taskId){
 function saveGoal(){
     var goal={itemId:globalItemData.selectedItemId};
     goal.des=$("#goalDesForAdd").val();
-    goal.itemId=globalItemData.selectedItemId;
+    goal.itemId= $('#itemIdForGoalAdd').val();
     if(goal.des==''){
         layer.alert("目标描述不能为空！",{icon: 2});
         return;
@@ -544,4 +559,35 @@ function deletItem(itemId){
         });
         layer.close(index);
     });
+}
+
+
+/**
+ * 格式化日期显示
+ * @param date
+ * @returns {string}
+ */
+function dateFormatter(date){
+    var y = date.getFullYear();
+    var m = date.getMonth()+1;
+    var d = date.getDate();
+    return y+'-'+(m<10?('0'+m):m)+'-'+(d<10?('0'+d):d);
+}
+
+/**
+ * 解析日期值
+ * @param s
+ * @returns {Date}
+ */
+function dateParser(s) {
+    if (!s) return new Date();
+    var ss = (s.split('-'));
+    var y = parseInt(ss[0], 10);
+    var m = parseInt(ss[1], 10);
+    var d = parseInt(ss[2], 10);
+    if (!isNaN(y) && !isNaN(m) && !isNaN(d)) {
+        return new Date(y, m - 1, d);
+    } else {
+        return new Date();
+    }
 }

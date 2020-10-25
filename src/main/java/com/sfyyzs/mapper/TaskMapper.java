@@ -31,7 +31,7 @@ public interface TaskMapper {
      * @auther: szx
      * @date: 2020/10/18 16:20
      */
-    List<TaskTree> getTaskListByItemId(@Param("itemId") int itemId);
+    List<Task> getTaskListByItemId(@Param("itemId") Integer itemId);
     /**
      * 根据目标Id获取对应的任务（最外层任务）
      * @param:
@@ -83,4 +83,6 @@ public interface TaskMapper {
     int deleteTaskTreeByItemId(@Param("itemId") int itemId);
 
     int updateByPrimaryKeySelective(Task task);
+
+
 }
